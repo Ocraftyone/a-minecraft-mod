@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "  i",
+        " i ",
+        "i  "
+    ],
+    "key": {
+        "i": {
+            "item": "minecraft:netherite_infused_gem"
+        }
+    },
+    "result": {
+        "item": "randomadditions:netherite_rod",
+        "count": 3
+    }
+}

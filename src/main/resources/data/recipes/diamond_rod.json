@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "  i",
+        " i ",
+        "i  "
+    ],
+    "key": {
+        "i": {
+            "item": "minecraft:diamond"
+        }
+    },
+    "result": {
+        "item": "randomadditions:diamond_rod",
+        "count": 3
+    }
+}

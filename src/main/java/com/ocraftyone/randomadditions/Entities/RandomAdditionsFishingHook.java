@@ -1,14 +1,10 @@
 package com.ocraftyone.randomadditions.Entities;
 
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.FishingHook;
 import net.minecraft.world.item.FishingRodItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 
 public class RandomAdditionsFishingHook extends FishingHook {
     
