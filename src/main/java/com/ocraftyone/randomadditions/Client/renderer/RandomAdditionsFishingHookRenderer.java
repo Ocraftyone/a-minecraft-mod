@@ -2,6 +2,7 @@ package com.ocraftyone.randomadditions.Client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.logging.LogUtils;
 import com.mojang.math.Matrix3f;
 import com.mojang.math.Matrix4f;
 import com.mojang.math.Vector3f;
@@ -22,9 +23,10 @@ import net.minecraft.world.item.FishingRodItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 
 public class RandomAdditionsFishingHookRenderer extends EntityRenderer<RandomAdditionsFishingHook> {
-    private static final ResourceLocation location = new ResourceLocation("textures/entity/fishing_hook.png");
+    private static final ResourceLocation location = new ResourceLocation("minecraft", "textures/entity/fishing_hook.png");
     private static final RenderType RENDER_TYPE = RenderType.entityCutout(location);
     
     
@@ -35,6 +37,7 @@ public class RandomAdditionsFishingHookRenderer extends EntityRenderer<RandomAdd
     //copy from vanilla
     
     @Override
+    @NotNull
     public void render(RandomAdditionsFishingHook pEntity, float pEntityYaw, float pPartialTicks, PoseStack pMatrixStack, MultiBufferSource pBuffer, int pPackedLight) {
         Player player = pEntity.getPlayerOwner();
         if (player != null) {
@@ -61,8 +64,8 @@ public class RandomAdditionsFishingHookRenderer extends EntityRenderer<RandomAdd
             float f = player.getAttackAnim(pPartialTicks);
             float f1 = Mth.sin(Mth.sqrt(f) * (float)Math.PI);
             float f2 = Mth.lerp(pPartialTicks, player.yBodyRotO, player.yBodyRot) * ((float)Math.PI / 180F);
-            double d0 = (double)Mth.sin(f2);
-            double d1 = (double)Mth.cos(f2);
+            double d0 = Mth.sin(f2);
+            double d1 = Mth.cos(f2);
             double d2 = (double)i * 0.35D;
             double d3 = 0.8D;
             double d4;
@@ -75,20 +78,20 @@ public class RandomAdditionsFishingHookRenderer extends EntityRenderer<RandomAdd
                 vec3 = vec3.scale(d7);
                 vec3 = vec3.yRot(f1 * 0.5F);
                 vec3 = vec3.xRot(-f1 * 0.7F);
-                d4 = Mth.lerp((double)pPartialTicks, player.xo, player.getX()) + vec3.x;
-                d5 = Mth.lerp((double)pPartialTicks, player.yo, player.getY()) + vec3.y;
-                d6 = Mth.lerp((double)pPartialTicks, player.zo, player.getZ()) + vec3.z;
+                d4 = Mth.lerp(pPartialTicks, player.xo, player.getX()) + vec3.x;
+                d5 = Mth.lerp(pPartialTicks, player.yo, player.getY()) + vec3.y;
+                d6 = Mth.lerp(pPartialTicks, player.zo, player.getZ()) + vec3.z;
                 f3 = player.getEyeHeight();
             } else {
-                d4 = Mth.lerp((double)pPartialTicks, player.xo, player.getX()) - d1 * d2 - d0 * 0.8D;
+                d4 = Mth.lerp(pPartialTicks, player.xo, player.getX()) - d1 * d2 - d0 * 0.8D;
                 d5 = player.yo + (double)player.getEyeHeight() + (player.getY() - player.yo) * (double)pPartialTicks - 0.45D;
-                d6 = Mth.lerp((double)pPartialTicks, player.zo, player.getZ()) - d0 * d2 + d1 * 0.8D;
+                d6 = Mth.lerp(pPartialTicks, player.zo, player.getZ()) - d0 * d2 + d1 * 0.8D;
                 f3 = player.isCrouching() ? -0.1875F : 0.0F;
             }
         
-            double d9 = Mth.lerp((double)pPartialTicks, pEntity.xo, pEntity.getX());
-            double d10 = Mth.lerp((double)pPartialTicks, pEntity.yo, pEntity.getY()) + 0.25D;
-            double d8 = Mth.lerp((double)pPartialTicks, pEntity.zo, pEntity.getZ());
+            double d9 = Mth.lerp(pPartialTicks, pEntity.xo, pEntity.getX());
+            double d10 = Mth.lerp(pPartialTicks, pEntity.yo, pEntity.getY()) + 0.25D;
+            double d8 = Mth.lerp(pPartialTicks, pEntity.zo, pEntity.getZ());
             float f4 = (float)(d4 - d9);
             float f5 = (float)(d5 - d10) + f3;
             float f6 = (float)(d6 - d8);
@@ -126,6 +129,7 @@ public class RandomAdditionsFishingHookRenderer extends EntityRenderer<RandomAdd
     }
     
     @Override
+    @NotNull
     public ResourceLocation getTextureLocation(RandomAdditionsFishingHook entity) {
         return location;
     }

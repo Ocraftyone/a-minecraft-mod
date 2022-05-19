@@ -17,13 +17,13 @@ import java.util.function.Supplier;
 public class ModEntities {
     public static final DeferredRegister<EntityType<?>> REGISTRY = DeferredRegister.create(ForgeRegistries.ENTITIES, Constants.MOD_ID);
     
-    public static final RegistryObject<EntityType<RandomAdditionsFishingHook>> FISHING_HOOK = register("fishing_hook", () -> EntityType.Builder.<RandomAdditionsFishingHook>createNothing(MobCategory.MISC)
+    public static final RegistryObject<EntityType<RandomAdditionsFishingHook>> FISHING_HOOK = register("fishing_hook", () -> EntityType.Builder.<RandomAdditionsFishingHook>of(RandomAdditionsFishingHook::new, MobCategory.MISC)
             .noSave()
             .noSummon()
-            .sized(.25F, .25F)
+            .sized(0.25F, 0.25F)
             .setTrackingRange(4)
-            .setUpdateInterval(5)
-            .setCustomClientFactory(RandomAdditionsFishingHook::new));
+            .setUpdateInterval(5));
+    
     
     public static <T extends Entity> RegistryObject<EntityType<T>> register(String name, Supplier<EntityType.Builder<T>> supplier) {
         ResourceLocation location = new ResourceLocation(Constants.MOD_ID, name);
