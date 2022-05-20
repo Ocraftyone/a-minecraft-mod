@@ -1,22 +1,32 @@
 package com.ocraftyone.randomadditions.Entities;
 
+import com.mojang.logging.LogUtils;
 import com.ocraftyone.randomadditions.inits.ModEntities;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.FishingHook;
 import net.minecraft.world.item.FishingRodItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.Tiers;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Type;
+
 public class RandomAdditionsFishingHook extends FishingHook {
     
-    public RandomAdditionsFishingHook(Player player, Level level, int luck, int lureSpeed) {
+    private final Tier tier;
+    
+    public RandomAdditionsFishingHook(Player player, Level level, int luck, int lureSpeed, Tier tier) {
         super(player, level, luck, lureSpeed);
+        this.tier = tier;
     }
     
     public RandomAdditionsFishingHook(EntityType<RandomAdditionsFishingHook> randomAdditionsFishingHookEntityType, Level level) {
         super(randomAdditionsFishingHookEntityType, level);
+        this.tier = null;
     }
     
     @Override
@@ -30,6 +40,14 @@ public class RandomAdditionsFishingHook extends FishingHook {
         } else {
             this.discard();
             return true;
+        }
+    }
+    
+    @Override
+    protected void catchingFish(BlockPos p_37146_) {
+        super.catchingFish(p_37146_);
+        if (tier.equals(Tiers.NETHERITE)) {
+            this.timeUntilLured = 1;
         }
     }
     

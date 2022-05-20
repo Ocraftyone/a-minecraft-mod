@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "randomadditions:item/diamond_infused_string"
+  }
+}

@@ -4,7 +4,7 @@
     "item": "minecraft:diamond"
   },
   "addition": {
-    "item": "minecraft:netherite_scrap"
+    "item": "minecraft:netherite_ingot"
   },
   "result": {
     "item": "randomadditions:netherite_infused_gem"

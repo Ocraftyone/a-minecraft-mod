@@ -3,5 +3,15 @@
   "item.randomadditions.gold_fishing_rod": "Gold Fishing Rod",
   "item.randomadditions.diamond_fishing_rod": "Diamond Fishing Rod",
   "item.randomadditions.netherite_fishing_rod": "Netherite Fishing Rod",
-  "itemGroup.fishing": "RandomAdditions: Fishing"
+  "item.randomadditions.iron_infused_string": "Iron Infused String",
+  "item.randomadditions.gold_infused_string": "Gold Infused String",
+  "item.randomadditions.diamond_infused_string": "Diamond Infused String",
+  "item.randomadditions.netherite_infused_string": "Netherite Infused String",
+  "item.randomadditions.iron_rod": "Iron Rod",
+  "item.randomadditions.gold_rod": "Gold Rod",
+  "item.randomadditions.diamond_rod": "Diamond Rod",
+  "item.randomadditions.netherite_rod": "Netherite Rod",
+  "item.randomadditions.netherite_infused_gem": "Netherite Infused Gem",
+  "itemGroup.random_additions_general": "RandomAdditions: General",
+  "itemGroup.random_additions_fishing": "RandomAdditions: Fishing"
 }

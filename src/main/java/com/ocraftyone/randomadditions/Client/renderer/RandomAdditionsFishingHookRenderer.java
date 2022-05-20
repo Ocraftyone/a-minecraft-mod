@@ -2,7 +2,6 @@ package com.ocraftyone.randomadditions.Client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.logging.LogUtils;
 import com.mojang.math.Matrix3f;
 import com.mojang.math.Matrix4f;
 import com.mojang.math.Vector3f;
@@ -12,17 +11,16 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.FishingHookRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.FishingHook;
 import net.minecraft.world.item.FishingRodItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.client.event.ColorHandlerEvent;
 import org.jetbrains.annotations.NotNull;
 
 public class RandomAdditionsFishingHookRenderer extends EntityRenderer<RandomAdditionsFishingHook> {
@@ -35,10 +33,8 @@ public class RandomAdditionsFishingHookRenderer extends EntityRenderer<RandomAdd
     }
     
     //copy from vanilla
-    
     @Override
-    @NotNull
-    public void render(RandomAdditionsFishingHook pEntity, float pEntityYaw, float pPartialTicks, PoseStack pMatrixStack, MultiBufferSource pBuffer, int pPackedLight) {
+    public void render(RandomAdditionsFishingHook pEntity, float pEntityYaw, float pPartialTicks, @NotNull PoseStack pMatrixStack, @NotNull MultiBufferSource pBuffer, int pPackedLight) {
         Player player = pEntity.getPlayerOwner();
         if (player != null) {
             pMatrixStack.pushPose();
@@ -57,7 +53,7 @@ public class RandomAdditionsFishingHookRenderer extends EntityRenderer<RandomAdd
             pMatrixStack.popPose();
             int i = player.getMainArm() == HumanoidArm.RIGHT ? 1 : -1;
             ItemStack itemstack = player.getMainHandItem();
-            if (!(itemstack.getItem() instanceof FishingRodItem)) {
+            if (!(itemstack.getItem() instanceof FishingRodItem)) {//allow the decision to be made for any FishingRodItem
                 i = -i;
             }
         
@@ -72,9 +68,14 @@ public class RandomAdditionsFishingHookRenderer extends EntityRenderer<RandomAdd
             double d5;
             double d6;
             float f3;
-            if ((this.entityRenderDispatcher.options == null || this.entityRenderDispatcher.options.getCameraType().isFirstPerson()) && player == Minecraft.getInstance().player) {
+            if (this.entityRenderDispatcher.options.getCameraType().isFirstPerson() && player == Minecraft.getInstance().player) {
                 double d7 = 960.0D / this.entityRenderDispatcher.options.fov;
-                Vec3 vec3 = this.entityRenderDispatcher.camera.getNearPlane().getPointOnPlane((float)i * 0.525F, -0.1F);
+                Vec3 vec3;
+                if (itemstack.is(Items.FISHING_ROD)) {
+                    vec3 = this.entityRenderDispatcher.camera.getNearPlane().getPointOnPlane((float) i * 0.525F, -0.1F);//update the point on screen where the fishing line is drawn
+                } else {
+                    vec3 = this.entityRenderDispatcher.camera.getNearPlane().getPointOnPlane((float)i * 0.55F, -0.15F);//update the point on screen where the fishing line is drawn
+                }
                 vec3 = vec3.scale(d7);
                 vec3 = vec3.yRot(f1 * 0.5F);
                 vec3 = vec3.xRot(-f1 * 0.7F);
@@ -130,7 +131,7 @@ public class RandomAdditionsFishingHookRenderer extends EntityRenderer<RandomAdd
     
     @Override
     @NotNull
-    public ResourceLocation getTextureLocation(RandomAdditionsFishingHook entity) {
+    public ResourceLocation getTextureLocation(@NotNull RandomAdditionsFishingHook entity) {
         return location;
     }
 }

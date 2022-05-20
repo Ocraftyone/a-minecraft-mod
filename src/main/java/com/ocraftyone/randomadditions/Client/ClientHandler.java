@@ -3,7 +3,6 @@ package com.ocraftyone.randomadditions.Client;
 import com.mojang.logging.LogUtils;
 import com.ocraftyone.randomadditions.Client.renderer.RandomAdditionsFishingHookRenderer;
 import com.ocraftyone.randomadditions.Constants;
-import com.ocraftyone.randomadditions.RandomAdditions;
 import com.ocraftyone.randomadditions.inits.ModEntities;
 import com.ocraftyone.randomadditions.inits.ModItems;
 import net.minecraft.client.renderer.item.ItemProperties;
