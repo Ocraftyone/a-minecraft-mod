@@ -1,12 +1,10 @@
 package com.ocraftyone.randomadditions;
 
 import com.mojang.logging.LogUtils;
-import com.ocraftyone.randomadditions.Client.ClientHandler;
+import com.ocraftyone.randomadditions.client.ClientHandler;
 import com.ocraftyone.randomadditions.inits.ModEntities;
 import com.ocraftyone.randomadditions.inits.ModItems;
-import net.minecraft.world.item.crafting.Recipe;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
