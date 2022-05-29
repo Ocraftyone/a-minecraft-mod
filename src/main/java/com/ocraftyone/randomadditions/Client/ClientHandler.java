@@ -1,4 +1,4 @@
-package com.ocraftyone.randomadditions.Client;
+package com.ocraftyone.randomadditions.client;
 
 import com.mojang.logging.LogUtils;
 import com.ocraftyone.randomadditions.Client.renderer.RandomAdditionsFishingHookRenderer;
