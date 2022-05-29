@@ -1,4 +1,4 @@
-package com.ocraftyone.randomadditions.Blocks;
+package com.ocraftyone.randomadditions.blocks;
 
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.CropBlock;
