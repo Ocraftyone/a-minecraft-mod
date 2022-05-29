@@ -1,6 +1,6 @@
 package com.ocraftyone.randomadditions.Items;
 
-import com.ocraftyone.randomadditions.Entities.RandomAdditionsFishingHook;
+import com.ocraftyone.randomadditions.entities.RandomAdditionsFishingHook;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
@@ -14,6 +14,9 @@ import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
+import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 public class RandomAdditionsFishingRod extends FishingRodItem {
     
@@ -26,21 +29,21 @@ public class RandomAdditionsFishingRod extends FishingRodItem {
         this.enchantability = tier.getEnchantmentValue();
     }
     
+    @NotNull
+    @ParametersAreNonnullByDefault
     @Override
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pHand) {
         ItemStack itemstack = pPlayer.getItemInHand(pHand);
         if (pPlayer.fishing != null) {
             if (!pLevel.isClientSide) {
                 int i = pPlayer.fishing.retrieve(itemstack);
-                itemstack.hurtAndBreak(i, pPlayer, (p_41288_) -> {
-                    p_41288_.broadcastBreakEvent(pHand);
-                });
+                itemstack.hurtAndBreak(i, pPlayer, (p_41288_) -> p_41288_.broadcastBreakEvent(pHand));
             }
             
-            pLevel.playSound((Player) null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.FISHING_BOBBER_RETRIEVE, SoundSource.NEUTRAL, 1.0F, 0.4F / (pLevel.getRandom().nextFloat() * 0.4F + 0.8F));
+            pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.FISHING_BOBBER_RETRIEVE, SoundSource.NEUTRAL, 1.0F, 0.4F / (pLevel.getRandom().nextFloat() * 0.4F + 0.8F));
             pLevel.gameEvent(pPlayer, GameEvent.FISHING_ROD_REEL_IN, pPlayer);
         } else {
-            pLevel.playSound((Player) null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.FISHING_BOBBER_THROW, SoundSource.NEUTRAL, 0.5F, 0.4F / (pLevel.getRandom().nextFloat() * 0.4F + 0.8F));
+            pLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.FISHING_BOBBER_THROW, SoundSource.NEUTRAL, 0.5F, 0.4F / (pLevel.getRandom().nextFloat() * 0.4F + 0.8F));
             if (!pLevel.isClientSide) {
                 int lure = EnchantmentHelper.getFishingSpeedBonus(itemstack);
                 int luck = EnchantmentHelper.getFishingLuckBonus(itemstack);

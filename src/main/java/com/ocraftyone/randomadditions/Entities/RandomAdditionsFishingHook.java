@@ -1,6 +1,5 @@
-package com.ocraftyone.randomadditions.Entities;
+package com.ocraftyone.randomadditions.entities;
 
-import com.mojang.logging.LogUtils;
 import com.ocraftyone.randomadditions.inits.ModEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EntityType;
@@ -13,7 +12,7 @@ import net.minecraft.world.item.Tiers;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.Type;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 public class RandomAdditionsFishingHook extends FishingHook {
     
@@ -44,9 +43,10 @@ public class RandomAdditionsFishingHook extends FishingHook {
     }
     
     @Override
+    @ParametersAreNonnullByDefault
     protected void catchingFish(BlockPos p_37146_) {
         super.catchingFish(p_37146_);
-        if (tier.equals(Tiers.NETHERITE)) {
+        if (tier != null && tier.equals(Tiers.NETHERITE)) {
             this.timeUntilLured = 1;
         }
     }

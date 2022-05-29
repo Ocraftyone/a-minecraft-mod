@@ -1,7 +1,7 @@
 package com.ocraftyone.randomadditions.inits;
 
 import com.ocraftyone.randomadditions.Constants;
-import com.ocraftyone.randomadditions.Entities.RandomAdditionsFishingHook;
+import com.ocraftyone.randomadditions.entities.RandomAdditionsFishingHook;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
