@@ -1,7 +1,7 @@
 package com.ocraftyone.randomadditions;
 
 import com.mojang.logging.LogUtils;
-import com.ocraftyone.randomadditions.client.ClientHandler;
+import com.ocraftyone.randomadditions.Client.ClientHandler;
 import com.ocraftyone.randomadditions.inits.ModEntities;
 import com.ocraftyone.randomadditions.inits.ModItems;
 import net.minecraftforge.common.MinecraftForge;
