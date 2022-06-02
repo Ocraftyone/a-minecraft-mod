@@ -1,4 +1,4 @@
-package com.ocraftyone.randomadditions.Items;
+package com.ocraftyone.randomadditions.items;
 
 import com.ocraftyone.randomadditions.entities.RandomAdditionsFishingHook;
 import net.minecraft.sounds.SoundEvents;

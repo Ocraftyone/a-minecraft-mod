@@ -1,7 +1,7 @@
 package com.ocraftyone.randomadditions.inits;
 
 import com.ocraftyone.randomadditions.Constants;
-import com.ocraftyone.randomadditions.Items.RandomAdditionsFishingRod;
+import com.ocraftyone.randomadditions.items.RandomAdditionsFishingRod;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Tiers;
 import net.minecraftforge.registries.DeferredRegister;
