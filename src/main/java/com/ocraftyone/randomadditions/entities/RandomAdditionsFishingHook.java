@@ -1,4 +1,4 @@
-package com.ocraftyone.randomadditions.Entites;
+package com.ocraftyone.randomadditions.entities;
 
 import com.ocraftyone.randomadditions.inits.ModEntities;
 import net.minecraft.core.BlockPos;
