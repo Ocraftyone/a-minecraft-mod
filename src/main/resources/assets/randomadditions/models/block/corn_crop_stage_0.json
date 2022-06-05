@@ -1,0 +1,6 @@
+{
+    "parent": "block/tinted_cross",
+    "textures": {
+        "cross": "moreeverything:blocks/corn_crop_stage_0"
+    }
+}
