@@ -1,20 +1,38 @@
 package com.ocraftyone.randomadditions.blocks;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import org.jetbrains.annotations.NotNull;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.common.ForgeHooks;
 
+import java.util.Random;
 import java.util.function.Supplier;
 
-public class CornCrop extends CropBlock  {
+@SuppressWarnings("NullableProblems")
+public class CornCrop extends CropBlock {
     private final Supplier<? extends ItemLike> seedItem;
     public static final BooleanProperty UPPER = BooleanProperty.create("upper");
+    
+    private static final VoxelShape[] SHAPES = {
+            Block.box(0.0D, 0.0D, 0.0D, 1.0D, 0.125D, 1.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 1.0D, 0.25D, 1.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 1.0D, 0.5625D, 1.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D)};
     
     public CornCrop(Properties properties, Supplier<? extends ItemLike> seed) {
         super(properties);
@@ -23,7 +41,7 @@ public class CornCrop extends CropBlock  {
     }
     
     @Override
-    protected @NotNull ItemLike getBaseSeedId() {
+    protected ItemLike getBaseSeedId() {
         return this.seedItem.get();
     }
     
@@ -44,5 +62,78 @@ public class CornCrop extends CropBlock  {
                     && super.canSurvive(pState, pLevel, pPos);
         }
         return super.canSurvive(pState, pLevel, pPos);
+    }
+    
+    @Override
+    public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, Random pRandom) {
+        if (pState.getValue(this.getUpperProperty())) return;
+        //noinspection deprecation
+        if (!pLevel.isAreaLoaded(pPos, 1)) {
+            return; // Forge: prevent loading unloaded chunks when checking neighbor's light
+        }
+        float f = getGrowthSpeed(this, pLevel, pPos);
+        int age = this.getAge(pState);
+        if (pLevel.getRawBrightness(pPos, 0) >= 9) {
+            if (age < this.getMaxAge()) {
+                if (ForgeHooks.onCropsGrowPre(pLevel, pPos, pState, pRandom.nextInt((int) (25.0F / f) + 1) == 0)) {
+                    pLevel.setBlock(pPos, this.getStateForLower(age + 1), 2);
+                    if (age >= this.getUpperActiveAge() && this.defaultBlockState().canSurvive(pLevel, pPos.above()) && pLevel.isEmptyBlock(pPos.above())) {
+                        pLevel.setBlockAndUpdate(pPos.above(), getStateForUpper(age + 1));
+                    }
+                    ForgeHooks.onCropsGrowPost(pLevel, pPos, pState);
+                }
+            }
+        }
+    }
+    
+    public BlockState getStateForLower(int age) {
+        return super.getStateForAge(age).setValue(this.getUpperProperty(), false);
+    }
+    
+    public BlockState getStateForUpper(int age) {
+        return super.getStateForAge(age).setValue(this.getUpperProperty(), true);
+    }
+    
+    public int getUpperActiveAge() {
+        return 4;
+    }
+    
+    @Override
+    public int getMaxAge() {
+        return 8;
+    }
+    
+
+    @Override
+    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+        return SHAPES[pState.getValue(this.getAgeProperty())];
+    }
+    
+    @Override
+    public boolean isValidBonemealTarget(BlockGetter pLevel, BlockPos pPos, BlockState pState, boolean pIsClient) {
+        if (pState.is(this)) {
+            return !this.isMaxAge(pState);
+        }
+        return true;
+    }
+    
+    @Override
+    public void growCrops(Level pLevel, BlockPos pPos, BlockState pState) {
+        if (pState.getValue(this.getUpperProperty())) {
+            BlockPos lowerPos = pPos.below();
+            BlockState lowerState = pLevel.getBlockState(lowerPos);
+            if (lowerState.is(this)) {
+                CornCrop lowerCrop = (CornCrop) lowerState.getBlock();
+                lowerCrop.growCrops(pLevel, lowerPos, lowerState);
+            }
+            return;
+        }
+        int boneMealedAge = this.getAge(pState) + this.getBonemealAgeIncrease(pLevel);
+        int maxAge = this.getMaxAge();
+        if (boneMealedAge > maxAge) {
+            boneMealedAge = maxAge;
+        }
+    
+        pLevel.setBlock(pPos, this.getStateForAge(boneMealedAge), 2);
     }
 }
