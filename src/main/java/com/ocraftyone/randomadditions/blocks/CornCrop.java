@@ -79,13 +79,7 @@ public class CornCrop extends CropBlock {
         if (pLevel.getRawBrightness(pPos, 0) >= 9) {
             if (age < this.getMaxAge()) {
                 if (ForgeHooks.onCropsGrowPre(pLevel, pPos, pState, pRandom.nextInt((int) (25.0F / f) + 1) == 0)) {
-                    pLevel.setBlock(pPos, this.getStateForLower(age + 1), 2);
-                    BlockPos above = pPos.above();
-                    if (age >= this.getUpperActiveAge() && this.defaultBlockState().canSurvive(pLevel, pPos.above())
-                            && (pLevel.isEmptyBlock(above) || (pLevel.getBlockState(above).is(this)
-                            && pLevel.getBlockState(above).getValue(this.getUpperProperty())))) {
-                        pLevel.setBlockAndUpdate(pPos.above(), getStateForUpper(age + 1));
-                    }
+                    growCropToAge(age + 1, pLevel, pPos);
                     ForgeHooks.onCropsGrowPost(pLevel, pPos, pState);
                 }
             }
@@ -140,11 +134,21 @@ public class CornCrop extends CropBlock {
             boneMealedAge = maxAge;
         }
     
-        pLevel.setBlock(pPos, this.getStateForAge(boneMealedAge), 2);
+        growCropToAge(boneMealedAge, (ServerLevel) pLevel, pPos);
     }
     
     @Override
     public IntegerProperty getAgeProperty() {
         return AGE;
+    }
+    
+    public void growCropToAge(int age, ServerLevel pLevel, BlockPos pPos) {
+        pLevel.setBlock(pPos, this.getStateForLower(age), 2);
+        BlockPos above = pPos.above();
+        if (age >= this.getUpperActiveAge() && this.defaultBlockState().canSurvive(pLevel, pPos.above())
+                && (pLevel.isEmptyBlock(above) || (pLevel.getBlockState(above).is(this)
+                && pLevel.getBlockState(above).getValue(this.getUpperProperty())))) {
+            pLevel.setBlockAndUpdate(pPos.above(), getStateForUpper(age));
+        }
     }
 }
