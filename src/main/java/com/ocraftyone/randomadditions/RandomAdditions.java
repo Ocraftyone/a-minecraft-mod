@@ -22,9 +22,9 @@ public class RandomAdditions {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         
         modEventBus.addListener(this::setupClient);
+        ModBlocks.BLOCK_REGISTRY.register(modEventBus);
         ModItems.ITEM_REGISTRY.register(modEventBus);
         ModEntities.ENTITY_REGISTRY.register(modEventBus);
-        ModBlocks.BLOCK_REGISTRY.register(modEventBus);
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
     }

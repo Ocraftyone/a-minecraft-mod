@@ -1,6 +1,6 @@
 {
     "parent": "block/tinted_cross",
     "textures": {
-        "cross": "moreeverything:blocks/corn_crop_stage_5_top"
+        "cross": "randomadditions:block/corn_crop_stage_5_top"
     }
 }

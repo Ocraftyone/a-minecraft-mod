@@ -1,46 +1,46 @@
 {
   "variants": {
     "age=0,upper=false": {
-      "model": "randomadditions:corn_crop_stage_0"
+      "model": "randomadditions:block/corn_crop_stage_0"
     },
     "age=1,upper=false": {
-      "model": "randomadditions:corn_crop_stage_1"
+      "model": "randomadditions:block/corn_crop_stage_1"
     },
     "age=2,upper=false": {
-      "model": "randomadditions:corn_crop_stage_2"
+      "model": "randomadditions:block/corn_crop_stage_2"
     },
     "age=3,upper=false": {
-      "model": "randomadditions:corn_crop_stage_3"
+      "model": "randomadditions:block/corn_crop_stage_3"
     },
     "age=4,upper=true": {
-      "model": "randomadditions:corn_crop_stage_4_top"
+      "model": "randomadditions:block/corn_crop_stage_4_top"
     },
     "age=4,upper=false": {
-      "model": "randomadditions:corn_crop_stage_4_bottom"
+      "model": "randomadditions:block/corn_crop_stage_4_bottom"
     },
     "age=5,upper=true": {
-      "model": "randomadditions:corn_crop_stage_5_top"
+      "model": "randomadditions:block/corn_crop_stage_5_top"
     },
     "age=5,upper=false": {
-      "model": "randomadditions:corn_crop_stage_5_bottom"
+      "model": "randomadditions:block/corn_crop_stage_5_bottom"
     },
     "age=6,upper=true": {
-      "model": "randomadditions:corn_crop_stage_6_top"
+      "model": "randomadditions:block/corn_crop_stage_6_top"
     },
     "age=6,upper=false": {
-      "model": "randomadditions:corn_crop_stage_6_bottom"
+      "model": "randomadditions:block/corn_crop_stage_6_bottom"
     },
     "age=7,upper=true": {
-      "model": "randomadditions:corn_crop_stage_7_top"
+      "model": "randomadditions:block/corn_crop_stage_7_top"
     },
     "age=7,upper=false": {
-      "model": "randomadditions:corn_crop_stage_7_bottom"
+      "model": "randomadditions:block/corn_crop_stage_7_bottom"
     },
     "age=8,upper=true": {
-      "model": "randomadditions:corn_crop_stage_8_top"
+      "model": "randomadditions:block/corn_crop_stage_8_top"
     },
     "age=8,upper=false": {
-      "model": "randomadditions:corn_crop_stage_8_bottom"
+      "model": "randomadditions:block/corn_crop_stage_8_bottom"
     }
   }
 }

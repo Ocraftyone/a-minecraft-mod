@@ -11,6 +11,7 @@ import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.ForgeHooks;
@@ -22,17 +23,18 @@ import java.util.function.Supplier;
 public class CornCrop extends CropBlock {
     private final Supplier<? extends ItemLike> seedItem;
     public static final BooleanProperty UPPER = BooleanProperty.create("upper");
+    public static final IntegerProperty AGE = IntegerProperty.create("age", 0, 8);
     
     private static final VoxelShape[] SHAPES = {
-            Block.box(0.0D, 0.0D, 0.0D, 1.0D, 0.125D, 1.0D),
-            Block.box(0.0D, 0.0D, 0.0D, 1.0D, 0.25D, 1.0D),
-            Block.box(0.0D, 0.0D, 0.0D, 1.0D, 0.5625D, 1.0D),
-            Block.box(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D),
-            Block.box(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D),
-            Block.box(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D),
-            Block.box(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D),
-            Block.box(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D),
-            Block.box(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D)};
+            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 4.0D, 16.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 9.0D, 16.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D)};
     
     public CornCrop(Properties properties, Supplier<? extends ItemLike> seed) {
         super(properties);
@@ -59,7 +61,8 @@ public class CornCrop extends CropBlock {
         BlockPos down = pPos.below();
         if (pLevel.getBlockState(down).is(this)) {
             return !pLevel.getBlockState(down).getValue(this.getUpperProperty())
-                    && super.canSurvive(pState, pLevel, pPos);
+                    && (pLevel.getRawBrightness(pPos, 0) >= 8 || pLevel.canSeeSky(pPos))
+                    && this.getAge(pLevel.getBlockState(down)) >= this.getUpperActiveAge();
         }
         return super.canSurvive(pState, pLevel, pPos);
     }
@@ -77,7 +80,10 @@ public class CornCrop extends CropBlock {
             if (age < this.getMaxAge()) {
                 if (ForgeHooks.onCropsGrowPre(pLevel, pPos, pState, pRandom.nextInt((int) (25.0F / f) + 1) == 0)) {
                     pLevel.setBlock(pPos, this.getStateForLower(age + 1), 2);
-                    if (age >= this.getUpperActiveAge() && this.defaultBlockState().canSurvive(pLevel, pPos.above()) && pLevel.isEmptyBlock(pPos.above())) {
+                    BlockPos above = pPos.above();
+                    if (age >= this.getUpperActiveAge() && this.defaultBlockState().canSurvive(pLevel, pPos.above())
+                            && (pLevel.isEmptyBlock(above) || (pLevel.getBlockState(above).is(this)
+                            && pLevel.getBlockState(above).getValue(this.getUpperProperty())))) {
                         pLevel.setBlockAndUpdate(pPos.above(), getStateForUpper(age + 1));
                     }
                     ForgeHooks.onCropsGrowPost(pLevel, pPos, pState);
@@ -135,5 +141,10 @@ public class CornCrop extends CropBlock {
         }
     
         pLevel.setBlock(pPos, this.getStateForAge(boneMealedAge), 2);
+    }
+    
+    @Override
+    public IntegerProperty getAgeProperty() {
+        return AGE;
     }
 }

@@ -3,6 +3,7 @@ package com.ocraftyone.randomadditions.inits;
 import com.ocraftyone.randomadditions.Constants;
 import com.ocraftyone.randomadditions.items.RandomAdditionsFishingRod;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemNameBlockItem;
 import net.minecraft.world.item.Tiers;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -34,8 +35,7 @@ public class ModItems {
     public static final RegistryObject<Item> GOLD_FISHING_ROD = register("gold_fishing_rod", () -> new RandomAdditionsFishingRod(new Item.Properties().durability(96).tab(Constants.FishingTab), Tiers.GOLD));
     public static final RegistryObject<Item> DIAMOND_FISHING_ROD = register("diamond_fishing_rod", () -> new RandomAdditionsFishingRod(new Item.Properties().durability(256).tab(Constants.FishingTab), Tiers.DIAMOND));
     public static final RegistryObject<Item> NETHERITE_FISHING_ROD = register("netherite_fishing_rod", () -> new RandomAdditionsFishingRod(new Item.Properties().durability(1024).tab(Constants.FishingTab), Tiers.NETHERITE));
-    
-    
+    public static final RegistryObject<Item> CORN_KERNEL = register("corn_kernel", () -> new ItemNameBlockItem(ModBlocks.CORN_CROP.get(), new Item.Properties()));
     private static RegistryObject<Item> register(String name, Supplier<? extends Item> supplier) {
         return ITEM_REGISTRY.register(name, supplier);
     }
