@@ -18,7 +18,7 @@ import java.util.function.Supplier;
 public class ModBlocks {
     public static final DeferredRegister<Block> BLOCK_REGISTRY = DeferredRegister.create(ForgeRegistries.BLOCKS, Constants.MOD_ID);
     
-    public static final RegistryObject<Block> CORN_CROP = register("corn_crop", () -> new CornCrop(BlockBehaviour.Properties.of(Material.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP), ModItems.CORN_KERNEL), true);
+    public static final RegistryObject<Block> CORN_CROP = register("corn_crop", () -> new CornCrop(BlockBehaviour.Properties.of(Material.PLANT).noCollission().noOcclusion().randomTicks().instabreak().sound(SoundType.CROP), ModItems.CORN_KERNEL), true);
     
     private static <T extends Block> RegistryObject<T> register(String name, Supplier<T> supplier, CreativeModeTab tab, Item.Properties itemProperties, boolean bypassItemCreation) {
         RegistryObject<T> registryObject = BLOCK_REGISTRY.register(name, supplier);

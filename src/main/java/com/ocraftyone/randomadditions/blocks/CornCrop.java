@@ -2,11 +2,13 @@ package com.ocraftyone.randomadditions.blocks;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -149,6 +151,22 @@ public class CornCrop extends CropBlock {
                 && (pLevel.isEmptyBlock(above) || (pLevel.getBlockState(above).is(this)
                 && pLevel.getBlockState(above).getValue(this.getUpperProperty())))) {
             pLevel.setBlockAndUpdate(pPos.above(), getStateForUpper(age));
+        }
+    }
+    
+    @Override
+    public void playerWillDestroy(Level pLevel, BlockPos pPos, BlockState pState, Player pPlayer) {
+        BlockState airBlock = Blocks.AIR.defaultBlockState();
+        if (pState.getValue(this.getUpperProperty())) {
+            BlockPos below = pPos.below();
+            if (pLevel.getBlockState(below).is(this)) {
+                pLevel.setBlock(below, airBlock, 35);
+            }
+        } else {
+            BlockPos above = pPos.above();
+            if (pLevel.getBlockState(above).is(this)) {
+                pLevel.setBlock(above, airBlock, 35);
+            }
         }
     }
 }

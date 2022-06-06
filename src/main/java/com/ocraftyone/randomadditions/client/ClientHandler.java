@@ -3,8 +3,11 @@ package com.ocraftyone.randomadditions.client;
 import com.mojang.logging.LogUtils;
 import com.ocraftyone.randomadditions.Constants;
 import com.ocraftyone.randomadditions.client.renderer.RandomAdditionsFishingHookRenderer;
+import com.ocraftyone.randomadditions.inits.ModBlocks;
 import com.ocraftyone.randomadditions.inits.ModEntities;
 import com.ocraftyone.randomadditions.inits.ModItems;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
@@ -14,6 +17,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+
 @Mod.EventBusSubscriber(modid = Constants.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ClientHandler {
     public static void setupClient() {
@@ -21,6 +25,12 @@ public class ClientHandler {
         registerFishingRod(ModItems.GOLD_FISHING_ROD.get());
         registerFishingRod(ModItems.DIAMOND_FISHING_ROD.get());
         registerFishingRod(ModItems.NETHERITE_FISHING_ROD.get());
+        
+        registerBlockRenders();
+    }
+    
+    public static void registerBlockRenders() {
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.CORN_CROP.get(), RenderType.cutout());
     }
     
     public static void registerFishingRod(Item fishingRod) {
