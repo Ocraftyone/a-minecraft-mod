@@ -13,7 +13,7 @@ import net.minecraftforge.registries.RegistryObject;
 import java.util.function.Supplier;
 
 public class ModEntities {
-    public static final DeferredRegister<EntityType<?>> REGISTRY = DeferredRegister.create(ForgeRegistries.ENTITIES, Constants.MOD_ID);
+    public static final DeferredRegister<EntityType<?>> ENTITY_REGISTRY = DeferredRegister.create(ForgeRegistries.ENTITIES, Constants.MOD_ID);
     
     public static final RegistryObject<EntityType<RandomAdditionsFishingHook>> FISHING_HOOK = register("fishing_hook", () -> EntityType.Builder.<RandomAdditionsFishingHook>of(RandomAdditionsFishingHook::new, MobCategory.MISC)
             .noSave()
@@ -25,6 +25,6 @@ public class ModEntities {
     
     public static <T extends Entity> RegistryObject<EntityType<T>> register(String name, Supplier<EntityType.Builder<T>> supplier) {
         ResourceLocation location = new ResourceLocation(Constants.MOD_ID, name);
-        return REGISTRY.register(name, () -> supplier.get().build(location.toString()));
+        return ENTITY_REGISTRY.register(name, () -> supplier.get().build(location.toString()));
     }
 }

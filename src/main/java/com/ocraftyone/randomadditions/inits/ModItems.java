@@ -12,7 +12,7 @@ import java.util.function.Supplier;
 
 
 public class ModItems {
-    public static final DeferredRegister<Item> REGISTRY = DeferredRegister.create(ForgeRegistries.ITEMS, Constants.MOD_ID);
+    public static final DeferredRegister<Item> ITEM_REGISTRY = DeferredRegister.create(ForgeRegistries.ITEMS, Constants.MOD_ID);
     
     //material rods
     public static final RegistryObject<Item> IRON_ROD = register("iron_rod", () -> new Item(new Item.Properties().tab(Constants.GeneralTab)));
@@ -36,8 +36,8 @@ public class ModItems {
     public static final RegistryObject<Item> NETHERITE_FISHING_ROD = register("netherite_fishing_rod", () -> new RandomAdditionsFishingRod(new Item.Properties().durability(1024).tab(Constants.FishingTab), Tiers.NETHERITE));
     
     
-    public static RegistryObject<Item> register(String name, Supplier<? extends Item> supplier) {
-        return REGISTRY.register(name, supplier);
+    private static RegistryObject<Item> register(String name, Supplier<? extends Item> supplier) {
+        return ITEM_REGISTRY.register(name, supplier);
     }
     
 }

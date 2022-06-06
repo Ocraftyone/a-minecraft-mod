@@ -1,8 +1,8 @@
 package com.ocraftyone.randomadditions.client;
 
 import com.mojang.logging.LogUtils;
-import com.ocraftyone.randomadditions.client.renderer.RandomAdditionsFishingHookRenderer;
 import com.ocraftyone.randomadditions.Constants;
+import com.ocraftyone.randomadditions.client.renderer.RandomAdditionsFishingHookRenderer;
 import com.ocraftyone.randomadditions.inits.ModEntities;
 import com.ocraftyone.randomadditions.inits.ModItems;
 import net.minecraft.client.renderer.item.ItemProperties;
