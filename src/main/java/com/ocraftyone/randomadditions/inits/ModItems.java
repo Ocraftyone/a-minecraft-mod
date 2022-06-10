@@ -1,7 +1,7 @@
 package com.ocraftyone.randomadditions.inits;
 
 import com.ocraftyone.randomadditions.Constants;
-import com.ocraftyone.randomadditions.items.RandomAdditionsFishingRod;
+import com.ocraftyone.randomadditions.items.ModifiedFishingRod;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemNameBlockItem;
 import net.minecraft.world.item.Tiers;
@@ -31,11 +31,12 @@ public class ModItems {
     public static final RegistryObject<Item> NETHERITE_INFUSED_GEM = register("netherite_infused_gem", () -> new Item(new Item.Properties().tab(Constants.GeneralTab)));
     
     //fishing rods
-    public static final RegistryObject<Item> IRON_FISHING_ROD = register("iron_fishing_rod", () -> new RandomAdditionsFishingRod(new Item.Properties().durability(128).tab(Constants.FishingTab), Tiers.IRON));
-    public static final RegistryObject<Item> GOLD_FISHING_ROD = register("gold_fishing_rod", () -> new RandomAdditionsFishingRod(new Item.Properties().durability(96).tab(Constants.FishingTab), Tiers.GOLD));
-    public static final RegistryObject<Item> DIAMOND_FISHING_ROD = register("diamond_fishing_rod", () -> new RandomAdditionsFishingRod(new Item.Properties().durability(256).tab(Constants.FishingTab), Tiers.DIAMOND));
-    public static final RegistryObject<Item> NETHERITE_FISHING_ROD = register("netherite_fishing_rod", () -> new RandomAdditionsFishingRod(new Item.Properties().durability(1024).tab(Constants.FishingTab), Tiers.NETHERITE));
+    public static final RegistryObject<Item> IRON_FISHING_ROD = register("iron_fishing_rod", () -> new ModifiedFishingRod(new Item.Properties().durability(128).tab(Constants.FishingTab), Tiers.IRON));
+    public static final RegistryObject<Item> GOLD_FISHING_ROD = register("gold_fishing_rod", () -> new ModifiedFishingRod(new Item.Properties().durability(96).tab(Constants.FishingTab), Tiers.GOLD));
+    public static final RegistryObject<Item> DIAMOND_FISHING_ROD = register("diamond_fishing_rod", () -> new ModifiedFishingRod(new Item.Properties().durability(256).tab(Constants.FishingTab), Tiers.DIAMOND));
+    public static final RegistryObject<Item> NETHERITE_FISHING_ROD = register("netherite_fishing_rod", () -> new ModifiedFishingRod(new Item.Properties().durability(1024).tab(Constants.FishingTab), Tiers.NETHERITE));
     public static final RegistryObject<Item> CORN_KERNEL = register("corn_kernel", () -> new ItemNameBlockItem(ModBlocks.CORN_CROP.get(), new Item.Properties()));
+    
     private static RegistryObject<Item> register(String name, Supplier<? extends Item> supplier) {
         return ITEM_REGISTRY.register(name, supplier);
     }

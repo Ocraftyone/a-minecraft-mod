@@ -38,6 +38,18 @@ public class CornCrop extends CropBlock {
             Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D),
             Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D)};
     
+    private static final VoxelShape[] UPPER_SHAPES = {
+            null,
+            null,
+            null,
+            null,
+            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 0.0D, 16.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 0.0D, 16.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 0.0D, 16.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 0.0D, 16.0D)
+    };
+    
+    
     public CornCrop(Properties properties, Supplier<? extends ItemLike> seed) {
         super(properties);
         this.seedItem = seed;
@@ -108,7 +120,8 @@ public class CornCrop extends CropBlock {
 
     @Override
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-        return SHAPES[pState.getValue(this.getAgeProperty())];
+        int age = pState.getValue(this.getAgeProperty());
+        return pState.getValue(this.getUpperProperty()) ? UPPER_SHAPES[age] : SHAPES[age];
     }
     
     @Override

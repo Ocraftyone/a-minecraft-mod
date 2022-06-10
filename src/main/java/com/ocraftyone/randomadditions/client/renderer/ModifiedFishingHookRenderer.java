@@ -22,12 +22,12 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
-public class RandomAdditionsFishingHookRenderer extends EntityRenderer<RandomAdditionsFishingHook> {
+public class ModifiedFishingHookRenderer extends EntityRenderer<RandomAdditionsFishingHook> {
     private static final ResourceLocation location = new ResourceLocation("minecraft", "textures/entity/fishing_hook.png");
     private static final RenderType RENDER_TYPE = RenderType.entityCutout(location);
     
     
-    public RandomAdditionsFishingHookRenderer(EntityRendererProvider.Context context) {
+    public ModifiedFishingHookRenderer(EntityRendererProvider.Context context) {
         super(context);
     }
     

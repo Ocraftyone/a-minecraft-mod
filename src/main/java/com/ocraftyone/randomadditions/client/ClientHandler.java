@@ -2,7 +2,7 @@ package com.ocraftyone.randomadditions.client;
 
 import com.mojang.logging.LogUtils;
 import com.ocraftyone.randomadditions.Constants;
-import com.ocraftyone.randomadditions.client.renderer.RandomAdditionsFishingHookRenderer;
+import com.ocraftyone.randomadditions.client.renderer.ModifiedFishingHookRenderer;
 import com.ocraftyone.randomadditions.inits.ModBlocks;
 import com.ocraftyone.randomadditions.inits.ModEntities;
 import com.ocraftyone.randomadditions.inits.ModItems;
@@ -51,6 +51,6 @@ public class ClientHandler {
     @SubscribeEvent
     public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
         LogUtils.getLogger().info("HELLO FROM REGISTER ENTITY RENDERERS");
-        event.registerEntityRenderer(ModEntities.FISHING_HOOK.get(), RandomAdditionsFishingHookRenderer::new);
+        event.registerEntityRenderer(ModEntities.FISHING_HOOK.get(), ModifiedFishingHookRenderer::new);
     }
 }

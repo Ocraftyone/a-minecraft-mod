@@ -18,12 +18,12 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-public class RandomAdditionsFishingRod extends FishingRodItem {
+public class ModifiedFishingRod extends FishingRodItem {
     
     private final Tier tier;
     private final int enchantability;
     
-    public RandomAdditionsFishingRod(Properties properties, Tier tier) {
+    public ModifiedFishingRod(Properties properties, Tier tier) {
         super(properties);
         this.tier = tier;
         this.enchantability = tier.getEnchantmentValue();
