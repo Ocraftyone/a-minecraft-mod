@@ -1,6 +1,6 @@
 package com.ocraftyone.randomadditions.items;
 
-import com.ocraftyone.randomadditions.entities.RandomAdditionsFishingHook;
+import com.ocraftyone.randomadditions.entities.ModifiedFishingHook;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
@@ -61,7 +61,7 @@ public class ModifiedFishingRod extends FishingRodItem {
                     luck += 10;
                 }
                 lure = Math.min(5, lure);
-                pLevel.addFreshEntity(new RandomAdditionsFishingHook(pPlayer, pLevel, luck, lure, tier));
+                pLevel.addFreshEntity(new ModifiedFishingHook(pPlayer, pLevel, luck, lure, tier));
             }
             pPlayer.awardStat(Stats.ITEM_USED.get(this));
             pLevel.gameEvent(pPlayer, GameEvent.FISHING_ROD_CAST, pPlayer);

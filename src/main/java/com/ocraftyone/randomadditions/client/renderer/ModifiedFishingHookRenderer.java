@@ -5,7 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Matrix3f;
 import com.mojang.math.Matrix4f;
 import com.mojang.math.Vector3f;
-import com.ocraftyone.randomadditions.entities.RandomAdditionsFishingHook;
+import com.ocraftyone.randomadditions.entities.ModifiedFishingHook;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -22,7 +22,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
-public class ModifiedFishingHookRenderer extends EntityRenderer<RandomAdditionsFishingHook> {
+public class ModifiedFishingHookRenderer extends EntityRenderer<ModifiedFishingHook> {
     private static final ResourceLocation location = new ResourceLocation("minecraft", "textures/entity/fishing_hook.png");
     private static final RenderType RENDER_TYPE = RenderType.entityCutout(location);
     
@@ -33,7 +33,7 @@ public class ModifiedFishingHookRenderer extends EntityRenderer<RandomAdditionsF
     
     //copy from vanilla
     @Override
-    public void render(RandomAdditionsFishingHook pEntity, float pEntityYaw, float pPartialTicks, @NotNull PoseStack pMatrixStack, @NotNull MultiBufferSource pBuffer, int pPackedLight) {
+    public void render(ModifiedFishingHook pEntity, float pEntityYaw, float pPartialTicks, @NotNull PoseStack pMatrixStack, @NotNull MultiBufferSource pBuffer, int pPackedLight) {
         Player player = pEntity.getPlayerOwner();
         if (player != null) {
             pMatrixStack.pushPose();
@@ -130,7 +130,7 @@ public class ModifiedFishingHookRenderer extends EntityRenderer<RandomAdditionsF
     
     @Override
     @NotNull
-    public ResourceLocation getTextureLocation(@NotNull RandomAdditionsFishingHook entity) {
+    public ResourceLocation getTextureLocation(@NotNull ModifiedFishingHook entity) {
         return location;
     }
 }

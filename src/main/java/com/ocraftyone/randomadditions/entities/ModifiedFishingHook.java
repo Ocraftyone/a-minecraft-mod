@@ -14,16 +14,16 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-public class RandomAdditionsFishingHook extends FishingHook {
+public class ModifiedFishingHook extends FishingHook {
     
     private final Tier tier;
     
-    public RandomAdditionsFishingHook(Player player, Level level, int luck, int lureSpeed, Tier tier) {
+    public ModifiedFishingHook(Player player, Level level, int luck, int lureSpeed, Tier tier) {
         super(player, level, luck, lureSpeed);
         this.tier = tier;
     }
     
-    public RandomAdditionsFishingHook(EntityType<RandomAdditionsFishingHook> randomAdditionsFishingHookEntityType, Level level) {
+    public ModifiedFishingHook(EntityType<ModifiedFishingHook> randomAdditionsFishingHookEntityType, Level level) {
         super(randomAdditionsFishingHookEntityType, level);
         this.tier = null;
     }
