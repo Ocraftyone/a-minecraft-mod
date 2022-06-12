@@ -9,6 +9,7 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -61,10 +62,9 @@ public class HomeItem extends Item {
                     if (compareUUIDs(tag.getUUID(UUID_KEY), pPlayer.getUUID())) {
                         String dimLocation = tag.getString(DIM);
                         ResourceKey<Level> destination = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(dimLocation));
-                        //noinspection ConstantConditions
-                        pPlayer.changeDimension(pLevel.getServer().getLevel(destination));
                         pPlayer.displayClientMessage(new TextComponent("Teleporting..."), true);
-                        pPlayer.teleportTo(tag.getDouble(POS_X_KEY), tag.getDouble(POS_Y_KEY), tag.getDouble(POS_Z_KEY));
+                        //noinspection ConstantConditions
+                        ((ServerPlayer) pPlayer).teleportTo(pLevel.getServer().getLevel(destination), tag.getDouble(POS_X_KEY), tag.getDouble(POS_Y_KEY), tag.getDouble(POS_Z_KEY), pPlayer.getYRot(), pPlayer.getXRot());
                         return InteractionResultHolder.success(itemstack);
                     } else {
                         pPlayer.displayClientMessage(new TextComponent("You are not the owner of this item").withStyle(ChatFormatting.RED), false);
