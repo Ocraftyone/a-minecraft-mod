@@ -41,7 +41,7 @@ public class ModItems {
     public static final RegistryObject<Item> CORN_KERNEL = register("corn_kernel", () -> new ItemNameBlockItem(ModBlocks.CORN_CROP.get(), new Item.Properties()));
     
     //home item
-    public static final RegistryObject<Item> HOME = register("home", () -> new HomeItem(new Item.Properties()));
+    public static final RegistryObject<Item> HOME = register("home", () -> new HomeItem(new Item.Properties().stacksTo(1)));
     
     private static RegistryObject<Item> register(String name, Supplier<? extends Item> supplier) {
         return ITEM_REGISTRY.register(name, supplier);
