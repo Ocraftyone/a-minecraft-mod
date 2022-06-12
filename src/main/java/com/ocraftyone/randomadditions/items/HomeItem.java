@@ -1,6 +1,7 @@
 package com.ocraftyone.randomadditions.items;
 
 import com.ocraftyone.randomadditions.Constants;
+import com.ocraftyone.randomadditions.inits.ModSounds;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
@@ -10,6 +11,7 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -29,8 +31,7 @@ public class HomeItem extends Item {
     private final String POS_X_KEY = POS_BASE + "x";
     private final String POS_Y_KEY = POS_BASE + "y";
     private final String POS_Z_KEY = POS_BASE + "z";
-    private String BOUND = Constants.MOD_ID + ".boundToPlayer";
-    private String DIM = Constants.MOD_ID + ".dim";
+    private final String BOUND = Constants.MOD_ID + ".boundToPlayer";
     
     public HomeItem(Properties pProperties) {
         super(pProperties);
@@ -41,6 +42,7 @@ public class HomeItem extends Item {
         ItemStack itemstack = pPlayer.getItemInHand(pUsedHand);
         CompoundTag tag = itemstack.getOrCreateTag();
         if (!pLevel.isClientSide()) {
+            String DIM = Constants.MOD_ID + ".dim";
             if (pPlayer.isCrouching()) {
                 if (tag.getBoolean(BOUND)) {
                     if (!compareUUIDs(tag.getUUID(UUID_KEY), pPlayer.getUUID())) {
@@ -65,7 +67,9 @@ public class HomeItem extends Item {
                         ResourceKey<Level> destination = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(dimLocation));
                         //noinspection ConstantConditions
                         ((ServerPlayer) pPlayer).teleportTo(pLevel.getServer().getLevel(destination), tag.getDouble(POS_X_KEY), tag.getDouble(POS_Y_KEY), tag.getDouble(POS_Z_KEY), pPlayer.getYRot(), pPlayer.getXRot());
+                        pLevel.playSound((Player) null, pPlayer, ModSounds.HOME_TELEPORT.get(), SoundSource.AMBIENT,1F, 1F);
                         return InteractionResultHolder.success(itemstack);
+                        
                     } else {
                         pPlayer.displayClientMessage(new TextComponent("You are not the owner of this item").withStyle(ChatFormatting.RED), false);
                         return InteractionResultHolder.fail(itemstack);

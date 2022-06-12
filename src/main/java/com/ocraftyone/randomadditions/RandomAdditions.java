@@ -5,6 +5,7 @@ import com.ocraftyone.randomadditions.client.ClientHandler;
 import com.ocraftyone.randomadditions.inits.ModBlocks;
 import com.ocraftyone.randomadditions.inits.ModEntities;
 import com.ocraftyone.randomadditions.inits.ModItems;
+import com.ocraftyone.randomadditions.inits.ModSounds;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -22,6 +23,7 @@ public class RandomAdditions {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         
         modEventBus.addListener(this::setupClient);
+        ModSounds.SOUND_REGISTRY.register(modEventBus);
         ModBlocks.BLOCK_REGISTRY.register(modEventBus);
         ModItems.ITEM_REGISTRY.register(modEventBus);
         ModEntities.ENTITY_REGISTRY.register(modEventBus);

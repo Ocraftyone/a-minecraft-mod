@@ -1,0 +1,8 @@
+{
+  "home_teleport": {
+    "subtitle": "sounds.randomadditions.home_teleport",
+    "sounds": [
+      "randomadditions:doorbell"
+    ]
+  }
+}
