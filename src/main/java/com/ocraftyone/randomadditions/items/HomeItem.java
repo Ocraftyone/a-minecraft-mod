@@ -3,6 +3,7 @@ package com.ocraftyone.randomadditions.items;
 import com.ocraftyone.randomadditions.Constants;
 import com.ocraftyone.randomadditions.inits.ModSounds;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -32,6 +33,7 @@ public class HomeItem extends Item {
     private final String POS_Y_KEY = POS_BASE + "y";
     private final String POS_Z_KEY = POS_BASE + "z";
     private final String BOUND = Constants.MOD_ID + ".boundToPlayer";
+    private final String DIM = Constants.MOD_ID + ".dim";
     
     public HomeItem(Properties pProperties) {
         super(pProperties);
@@ -42,7 +44,6 @@ public class HomeItem extends Item {
         ItemStack itemstack = pPlayer.getItemInHand(pUsedHand);
         CompoundTag tag = itemstack.getOrCreateTag();
         if (!pLevel.isClientSide()) {
-            String DIM = Constants.MOD_ID + ".dim";
             if (pPlayer.isCrouching()) {
                 if (tag.getBoolean(BOUND)) {
                     if (!compareUUIDs(tag.getUUID(UUID_KEY), pPlayer.getUUID())) {
@@ -107,8 +108,10 @@ public class HomeItem extends Item {
         //noinspection ConstantConditions
         if (pStack.hasTag() && tag.getBoolean(BOUND)) {
             if (pLevel == null) return;
-            pTooltipComponents.add(new TextComponent("Owner: " + pLevel.getPlayerByUUID(tag.getUUID(UUID_KEY)).getName().getString()).withStyle(ChatFormatting.GREEN));
-            pTooltipComponents.add(new TextComponent("Home Location: " + (int) tag.getDouble(POS_X_KEY) + ", " + (int) tag.getDouble(POS_Y_KEY) + ", " + (int) tag.getDouble(POS_Z_KEY)));
+            if (Screen.hasShiftDown()) {
+                pTooltipComponents.add(new TextComponent("Owner: " + pLevel.getPlayerByUUID(tag.getUUID(UUID_KEY)).getName().getString()).withStyle(ChatFormatting.GREEN));
+                pTooltipComponents.add(new TextComponent("Home Location: " + (int) tag.getDouble(POS_X_KEY) + ", " + (int) tag.getDouble(POS_Y_KEY) + ", " + (int) tag.getDouble(POS_Z_KEY)));
+            }
         }
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }

@@ -12,6 +12,14 @@
   "item.randomadditions.diamond_rod": "Diamond Rod",
   "item.randomadditions.netherite_rod": "Netherite Rod",
   "item.randomadditions.netherite_infused_gem": "Netherite Infused Gem",
+  "item.randomadditions.home": "Home",
+  "item.randomadditions.corn_kernel": "Corn Kernel",
+
+  "sounds.randomadditions.home_teleport": "Home Teleport",
+
+  "randomadditions.home.tooltip1": "Tooltip 1",
+  "randomadditions.home.tooltip2": "Tooltip 2",
+
   "itemGroup.random_additions_general": "RandomAdditions: General",
   "itemGroup.random_additions_fishing": "RandomAdditions: Fishing"
 }

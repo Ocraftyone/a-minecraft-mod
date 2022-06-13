@@ -1,8 +1,12 @@
 package com.ocraftyone.randomadditions.inits;
 
+import com.mojang.blaze3d.shaders.Effect;
 import com.ocraftyone.randomadditions.Constants;
 import com.ocraftyone.randomadditions.items.HomeItem;
 import com.ocraftyone.randomadditions.items.ModifiedFishingRod;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemNameBlockItem;
 import net.minecraft.world.item.Tiers;
@@ -39,6 +43,8 @@ public class ModItems {
     
     //corn items
     public static final RegistryObject<Item> CORN_KERNEL = register("corn_kernel", () -> new ItemNameBlockItem(ModBlocks.CORN_CROP.get(), new Item.Properties()));
+    public static final RegistryObject<Item> CORN_COB = register("corn_cob", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> SHUCKED_CORN_COB = register("shucked_corn_cob", () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(5).saturationMod(0.6F).effect(() -> new MobEffectInstance(MobEffects.HUNGER, 300, 0), 0.5F).build())));
     
     //home item
     public static final RegistryObject<Item> HOME = register("home", () -> new HomeItem(new Item.Properties().stacksTo(1)));
