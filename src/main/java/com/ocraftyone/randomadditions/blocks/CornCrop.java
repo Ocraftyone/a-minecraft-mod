@@ -2,18 +2,21 @@ package com.ocraftyone.randomadditions.blocks;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BoneMealItem;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.ForgeHooks;
@@ -43,10 +46,11 @@ public class CornCrop extends CropBlock {
             null,
             null,
             null,
-            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 0.0D, 16.0D),
-            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 0.0D, 16.0D),
-            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 0.0D, 16.0D),
-            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 0.0D, 16.0D)
+            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D),
+            Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D)
     };
     
     
@@ -169,17 +173,43 @@ public class CornCrop extends CropBlock {
     
     @Override
     public void playerWillDestroy(Level pLevel, BlockPos pPos, BlockState pState, Player pPlayer) {
-        BlockState airBlock = Blocks.AIR.defaultBlockState();
-        if (pState.getValue(this.getUpperProperty())) {
-            BlockPos below = pPos.below();
-            if (pLevel.getBlockState(below).is(this)) {
-                pLevel.setBlock(below, airBlock, 35);
-            }
-        } else {
-            BlockPos above = pPos.above();
-            if (pLevel.getBlockState(above).is(this)) {
-                pLevel.setBlock(above, airBlock, 35);
+        if (pState.getValue(this.getAgeProperty()) > this.getUpperActiveAge()) {
+            if (pState.getValue(this.getUpperProperty())) {
+                BlockPos below = pPos.below();
+                if (pLevel.getBlockState(below).is(this)) {
+                    pLevel.destroyBlock(below, false, pPlayer);
+                }
+            } else {
+                BlockPos above = pPos.above();
+                if (pLevel.getBlockState(above).is(this)) {
+                    pLevel.destroyBlock(above, false, pPlayer);
+                }
             }
         }
+        super.playerWillDestroy(pLevel, pPos, pState, pPlayer);
+    }
+    
+    @Override
+    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
+        if (pPlayer.getItemInHand(pHand).getItem() instanceof BoneMealItem) {
+            return InteractionResult.PASS;
+        }
+        if (pState.getValue(this.getUpperProperty())) {
+            BlockPos lowerPos = pPos.below();
+            BlockState lowerState = pLevel.getBlockState(lowerPos);
+            if (lowerState.is(this)) {
+                CornCrop lowerCrop = (CornCrop) lowerState.getBlock();
+                lowerCrop.use(lowerState, pLevel, lowerPos, pPlayer, pHand, pHit);
+            } else return InteractionResult.FAIL;
+            return InteractionResult.SUCCESS;
+        }
+        
+        if (isMaxAge(pState) && !pLevel.isClientSide()) {
+            pLevel.removeBlock(pPos.above(), false);
+            dropResources(pState, pLevel, pPos, null, pPlayer, pPlayer.getItemInHand(pHand));
+            growCropToAge(3, (ServerLevel) pLevel, pPos);
+            return InteractionResult.SUCCESS;
+        }
+        return super.use(pState, pLevel, pPos, pPlayer, pHand, pHit);
     }
 }
