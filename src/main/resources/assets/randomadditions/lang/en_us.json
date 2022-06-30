@@ -14,12 +14,11 @@
   "item.randomadditions.netherite_infused_gem": "Netherite Infused Gem",
   "item.randomadditions.home": "Home",
   "item.randomadditions.corn_kernel": "Corn Kernel",
-
+  "item.randomadditions.corn_cob": "Corn Cob",
+  "item.randomadditions.shucked_corn_cob": "Shucked Corn Cob",
   "sounds.randomadditions.home_teleport": "Home Teleport",
-
-  "randomadditions.home.tooltip1": "Tooltip 1",
-  "randomadditions.home.tooltip2": "Tooltip 2",
-
+  "randomadditions.home.tooltip1": "Shift + Right Click to bind home position and owner",
+  "randomadditions.home.tooltip2": "Right click to teleport",
   "itemGroup.random_additions_general": "RandomAdditions: General",
   "itemGroup.random_additions_fishing": "RandomAdditions: Fishing"
 }

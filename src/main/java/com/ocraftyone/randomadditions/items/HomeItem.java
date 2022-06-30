@@ -102,16 +102,18 @@ public class HomeItem extends Item {
     
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(new TranslatableComponent(Constants.MOD_ID + ".home.tooltip1"));
-        pTooltipComponents.add(new TranslatableComponent(Constants.MOD_ID + ".home.tooltip2"));
         CompoundTag tag = pStack.getTag();
         //noinspection ConstantConditions
-        if (pStack.hasTag() && tag.getBoolean(BOUND)) {
-            if (pLevel == null) return;
-            if (Screen.hasShiftDown()) {
+        if (Screen.hasShiftDown()) {
+            pTooltipComponents.add(new TranslatableComponent(Constants.MOD_ID + ".home.tooltip1"));
+            pTooltipComponents.add(new TranslatableComponent(Constants.MOD_ID + ".home.tooltip2"));
+            if (pStack.hasTag() && tag.getBoolean(BOUND)) {
+                if (pLevel == null) return;
                 pTooltipComponents.add(new TextComponent("Owner: " + pLevel.getPlayerByUUID(tag.getUUID(UUID_KEY)).getName().getString()).withStyle(ChatFormatting.GREEN));
-                pTooltipComponents.add(new TextComponent("Home Location: " + (int) tag.getDouble(POS_X_KEY) + ", " + (int) tag.getDouble(POS_Y_KEY) + ", " + (int) tag.getDouble(POS_Z_KEY)));
+                pTooltipComponents.add(new TextComponent("Home Location: " + (int) tag.getDouble(POS_X_KEY) + ", " + (int) tag.getDouble(POS_Y_KEY) + ", " + (int) tag.getDouble(POS_Z_KEY)).withStyle(ChatFormatting.GREEN));
             }
+        } else {
+            pTooltipComponents.add(new TextComponent("Hold").append(new TextComponent(" [Shift] ").withStyle(ChatFormatting.GREEN)).append("for more info"));
         }
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
