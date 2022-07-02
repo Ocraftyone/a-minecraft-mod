@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "randomadditions:cupcake_pan_cupcakes_six"
+    }
+  ],
+  "result": {
+    "item": "randomadditions:cupcake",
+    "count": 6
+  }
+}

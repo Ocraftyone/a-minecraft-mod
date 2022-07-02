@@ -20,5 +20,5 @@
   "randomadditions.home.tooltip1": "Shift + Right Click to bind home position and owner",
   "randomadditions.home.tooltip2": "Right click to teleport",
   "itemGroup.random_additions_general": "RandomAdditions: General",
-  "itemGroup.random_additions_fishing": "RandomAdditions: Fishing"
+  "itemGroup.random_additions_food": "RandomAdditions: Food"
 }

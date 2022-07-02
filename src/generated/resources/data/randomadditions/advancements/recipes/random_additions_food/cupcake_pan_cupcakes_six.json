@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "randomadditions:cupcake_pan_cupcakes_six"
+    ]
+  },
+  "criteria": {
+    "has_batter_pan": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "randomadditions:batter_pans"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "randomadditions:cupcake_pan_cupcakes_six"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_batter_pan",
+      "has_the_recipe"
+    ]
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "randomadditions:cupcake_pan_batter_one"
+  },
+  "result": "randomadditions:cupcake_pan_cupcakes_one",
+  "experience": 0.75,
+  "cookingtime": 600
+}

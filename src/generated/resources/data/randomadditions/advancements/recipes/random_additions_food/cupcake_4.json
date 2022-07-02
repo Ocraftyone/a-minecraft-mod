@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "randomadditions:cupcake_4"
+    ]
+  },
+  "criteria": {
+    "has_cupcake_pan": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "randomadditions:cupcake_pans"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "randomadditions:cupcake_4"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_cupcake_pan",
+      "has_the_recipe"
+    ]
+  ]
+}
