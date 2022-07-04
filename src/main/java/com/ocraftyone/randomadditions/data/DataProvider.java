@@ -17,7 +17,7 @@ public class DataProvider {
             registerServerProviders(event);
         }
         if (event.includeClient()) {
-        
+            registerClientProviders(event);
         }
     }
     
