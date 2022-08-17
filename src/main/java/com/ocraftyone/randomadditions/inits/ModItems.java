@@ -27,9 +27,6 @@ import java.util.function.Supplier;
 public class ModItems {
     public static final DeferredRegister<Item> ITEM_REGISTRY = DeferredRegister.create(ForgeRegistries.ITEMS, Constants.MOD_ID);
     
-    public static void items() {
-    
-    }
     /*
      * GENERAL ITEMS
      * */

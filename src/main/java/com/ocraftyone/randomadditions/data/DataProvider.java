@@ -16,6 +16,9 @@ public class DataProvider {
         if (event.includeServer()) {
             registerServerProviders(event);
         }
+        if (event.includeClient()) {
+            registerClientProviders(event);
+        }
     }
     
     private static void registerServerProviders(GatherDataEvent event) {
@@ -27,5 +30,11 @@ public class DataProvider {
         BlockTagsProvider blockTagsProvider = new ModBlockTagProvider(gen, Constants.MOD_ID, existingFileHelper);
         gen.addProvider(blockTagsProvider);
         gen.addProvider(new ModItemTagProvider(gen, blockTagsProvider, Constants.MOD_ID, existingFileHelper));
+    }
+    
+    private static void registerClientProviders(GatherDataEvent event) {
+        DataGenerator gen = event.getGenerator();
+        
+        gen.addProvider(new ModLanguageProvider(gen, Constants.MOD_ID, "en_us"));
     }
 }
