@@ -26,3 +26,4 @@ forge*changelog.txt
 /mappings/
 /jbr/
 /src/main/resources/mc-assets/
+/src/generated/resources/.cache/
