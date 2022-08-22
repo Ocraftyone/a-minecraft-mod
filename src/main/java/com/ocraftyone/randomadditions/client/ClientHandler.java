@@ -53,4 +53,11 @@ public class ClientHandler {
         LogUtils.getLogger().info("HELLO FROM REGISTER ENTITY RENDERERS");
         event.registerEntityRenderer(ModEntities.FISHING_HOOK.get(), ModifiedFishingHookRenderer::new);
     }
+    
+/*
+    Not needed unless I use my own model
+    @SubscribeEvent
+    public static void onModelRegistry(ModelRegistryEvent event) {
+        ForgeModelBakery.addSpecialModel(new ResourceLocation(Constants.MOD_ID, "item/corn_shucker_special"));
+    }*/
 }

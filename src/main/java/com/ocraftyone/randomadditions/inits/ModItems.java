@@ -63,7 +63,7 @@ public class ModItems {
     public static final RegistryObject<Item> CORN_KERNEL = register("corn_kernel", () -> new ItemNameBlockItem(ModBlocks.CORN_CROP.get(), new Item.Properties().tab(Constants.FoodTab)));
     public static final RegistryObject<Item> CORN_COB = register("corn_cob", () -> new Item(new Item.Properties().tab(Constants.FoodTab)));
     public static final RegistryObject<Item> SHUCKED_CORN_COB = register("shucked_corn_cob", () -> new Item(new Item.Properties().tab(Constants.FoodTab).food(new FoodProperties.Builder().nutrition(5).saturationMod(0.6F).effect(() -> new MobEffectInstance(MobEffects.HUNGER, 300, 0), 0.5F).build())));
-    public static final RegistryObject<Item> CORN_SHUCKER = register("corn_shucker", Constants.FoodTab, CornShuckerItem::new, (p) -> p);
+    public static final RegistryObject<Item> CORN_SHUCKER = register("corn_shucker", Constants.FoodTab, CornShuckerItem::new, (p) -> p.durability(120));
     //cupcake items
     public static final RegistryObject<Item> CUPCAKE = register("cupcake", () -> new Item(new Item.Properties().tab(Constants.FoodTab)));
     public static final RegistryObject<Item> CUPCAKE_LINER = register("cupcake_liner", () -> new Item(new Item.Properties().tab(Constants.FoodTab)));

@@ -6,6 +6,7 @@ import com.ocraftyone.randomadditions.inits.ModBlocks;
 import com.ocraftyone.randomadditions.inits.ModEntities;
 import com.ocraftyone.randomadditions.inits.ModItems;
 import com.ocraftyone.randomadditions.inits.ModSounds;
+import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -16,7 +17,7 @@ import org.slf4j.Logger;
 @Mod(Constants.MOD_ID)
 public class RandomAdditions {
     // Directly reference a slf4j logger
-    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
     
     public RandomAdditions() {
         // Register the setup method for mod loading
@@ -29,9 +30,15 @@ public class RandomAdditions {
         ModEntities.ENTITY_REGISTRY.register(modEventBus);
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.addListener(this::onClientChatReceived);
     }
     
     private void setupClient(FMLClientSetupEvent event) {
         ClientHandler.setupClient();
+    }
+    
+    public void onClientChatReceived(ClientChatReceivedEvent event) {
+        String string = event.getMessage().getString();
+        RandomAdditions.LOGGER.info(string);
     }
 }
