@@ -5,8 +5,6 @@ import com.ocraftyone.randomadditions.items.CornShuckerItem;
 import com.ocraftyone.randomadditions.items.HomeItem;
 import com.ocraftyone.randomadditions.items.MeasuringCupItem;
 import com.ocraftyone.randomadditions.items.ModifiedFishingRod;
-import com.ocraftyone.randomadditions.util.ItemTypeSupplier;
-import com.ocraftyone.randomadditions.util.PropertySupplier;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
@@ -121,5 +119,15 @@ public class ModItems {
     
     private static <T extends Item> RegistryObject<Item> register(String name, CreativeModeTab tab, ItemTypeSupplier<T> itemTypeSupplier) {
         return register(name, tab, itemTypeSupplier, null);
+    }
+    
+    @FunctionalInterface
+    public static interface ItemTypeSupplier<T extends Item> {
+        T create(Item.Properties properties);
+    }
+    
+    @FunctionalInterface
+    public static interface PropertySupplier<T extends Item.Properties> {
+        Item.Properties apply(Item.Properties properties);
     }
 }
