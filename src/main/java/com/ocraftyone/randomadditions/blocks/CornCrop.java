@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2022 Ocraftyone
+ *
+ * View license here: https://gist.github.com/Ocraftyone/06f367618c202a79bc6309ee59250260
+ */
+
 package com.ocraftyone.randomadditions.blocks;
 
 import net.minecraft.core.BlockPos;
@@ -121,7 +127,7 @@ public class CornCrop extends CropBlock {
         return 8;
     }
     
-
+    
     @Override
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
         int age = pState.getValue(this.getAgeProperty());
@@ -152,7 +158,7 @@ public class CornCrop extends CropBlock {
         if (boneMealedAge > maxAge) {
             boneMealedAge = maxAge;
         }
-    
+        
         growCropToAge(boneMealedAge, (ServerLevel) pLevel, pPos);
     }
     
