@@ -8,6 +8,7 @@ package com.ocraftyone.randomadditions.inits;
 
 import com.ocraftyone.randomadditions.Constants;
 import com.ocraftyone.randomadditions.blocks.CornCrop;
+import com.ocraftyone.randomadditions.blocks.CornShuckerBlock;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -26,6 +27,7 @@ public class ModBlocks {
     
     public static final RegistryObject<Block> CORN_CROP = register("corn_crop", () -> new CornCrop(BlockBehaviour.Properties.of(Material.PLANT).noCollission().noOcclusion().randomTicks().instabreak().sound(SoundType.CROP), ModItems.CORN_KERNEL), true);
     
+    public static final RegistryObject<Block> CORN_SHUCKER = register("corn_shucker", () -> new CornShuckerBlock(BlockBehaviour.Properties.of(Material.HEAVY_METAL).sound(SoundType.METAL)));
     private static <T extends Block> RegistryObject<T> register(String name, Supplier<T> supplier, CreativeModeTab tab, Item.Properties itemProperties, boolean bypassItemCreation) {
         RegistryObject<T> registryObject = BLOCK_REGISTRY.register(name, supplier);
         if (!bypassItemCreation) {
