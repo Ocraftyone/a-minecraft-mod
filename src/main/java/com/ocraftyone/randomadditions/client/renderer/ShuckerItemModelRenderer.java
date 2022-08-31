@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2022 Ocraftyone
+ *
+ * View license here: https://gist.github.com/Ocraftyone/06f367618c202a79bc6309ee59250260
+ */
+
 package com.ocraftyone.randomadditions.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -39,20 +45,20 @@ public class ShuckerItemModelRenderer extends BlockEntityWithoutLevelRenderer {
         int animationTime = pStack.getItem().getUseDuration(pStack);
         float time = timeRemaining - partialTics + 1.0F;
         float timeElapsed = animationTime - time;
-    
+        
         pPoseStack.pushPose();
         pPoseStack.translate(0.5F, 0.5F, 0.5F);
-    
+        
         if (tag.contains("Shucking")) {
             //Render item to be shucked
             pPoseStack.pushPose();
-        
+            
             float f1 = time / (float) pStack.getUseDuration();
             if (f1 < 0.8F) {
                 float f2 = -Mth.abs(Mth.cos(time / 4.0F * (float) Math.PI) * 0.1F);
                 pPoseStack.translate(0.0D, (double) f2, 0.0D);
             }
-        
+            
             renderer.renderStatic(ItemStack.of(tag.getCompound("Shucking")), pTransformType, pPackedLight, pPackedOverlay, pPoseStack, pBuffer, 0);
             pPoseStack.popPose();
             //Render shucker
@@ -67,7 +73,7 @@ public class ShuckerItemModelRenderer extends BlockEntityWithoutLevelRenderer {
         }
 
 //        renderer.renderModelLists(mainModel, pStack, pPackedLight, pPackedOverlay, pPoseStack, ItemRenderer.getFoilBuffer(pBuffer, Sheets.translucentItemSheet(), true, pStack.hasFoil()));
-    
+        
         renderer.render(pStack, pTransformType, itemInLeftHand, pPoseStack, pBuffer, pPackedLight, pPackedOverlay, mainModel);
         pPoseStack.popPose();
     }

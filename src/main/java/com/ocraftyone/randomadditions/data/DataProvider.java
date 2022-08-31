@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2022 Ocraftyone
+ *
+ * View license here: https://gist.github.com/Ocraftyone/06f367618c202a79bc6309ee59250260
+ */
+
 package com.ocraftyone.randomadditions.data;
 
 import com.ocraftyone.randomadditions.Constants;
@@ -24,9 +30,9 @@ public class DataProvider {
     private static void registerServerProviders(GatherDataEvent event) {
         DataGenerator gen = event.getGenerator();
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
-    
+        
         gen.addProvider(new ModRecipeProvider(gen));
-    
+        
         BlockTagsProvider blockTagsProvider = new ModBlockTagProvider(gen, Constants.MOD_ID, existingFileHelper);
         gen.addProvider(blockTagsProvider);
         gen.addProvider(new ModItemTagProvider(gen, blockTagsProvider, Constants.MOD_ID, existingFileHelper));

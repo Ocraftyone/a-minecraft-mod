@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2022 Ocraftyone
+ *
+ * View license here: https://gist.github.com/Ocraftyone/06f367618c202a79bc6309ee59250260
+ */
+
 package com.ocraftyone.randomadditions.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -55,7 +61,7 @@ public class ModifiedFishingHookRenderer extends EntityRenderer<ModifiedFishingH
             if (!(itemstack.getItem() instanceof FishingRodItem)) {//allow the decision to be made for any FishingRodItem
                 i = -i;
             }
-        
+            
             float f = player.getAttackAnim(pPartialTicks);
             float f1 = Mth.sin(Mth.sqrt(f) * (float)Math.PI);
             float f2 = Mth.lerp(pPartialTicks, player.yBodyRotO, player.yBodyRot) * ((float)Math.PI / 180F);
@@ -88,7 +94,7 @@ public class ModifiedFishingHookRenderer extends EntityRenderer<ModifiedFishingH
                 d6 = Mth.lerp(pPartialTicks, player.zo, player.getZ()) - d0 * d2 + d1 * 0.8D;
                 f3 = player.isCrouching() ? -0.1875F : 0.0F;
             }
-        
+            
             double d9 = Mth.lerp(pPartialTicks, pEntity.xo, pEntity.getX());
             double d10 = Mth.lerp(pPartialTicks, pEntity.yo, pEntity.getY()) + 0.25D;
             double d8 = Mth.lerp(pPartialTicks, pEntity.zo, pEntity.getZ());
@@ -98,18 +104,20 @@ public class ModifiedFishingHookRenderer extends EntityRenderer<ModifiedFishingH
             VertexConsumer vertexconsumer1 = pBuffer.getBuffer(RenderType.lineStrip());
             PoseStack.Pose posestack$pose1 = pMatrixStack.last();
             int j = 16;
-        
+            
             for(int k = 0; k <= 16; ++k) {
                 stringVertex(f4, f5, f6, vertexconsumer1, posestack$pose1, fraction(k, 16), fraction(k + 1, 16));
             }
-        
+            
             pMatrixStack.popPose();
             super.render(pEntity, pEntityYaw, pPartialTicks, pMatrixStack, pBuffer, pPackedLight);
         }
     }
+    
     private static float fraction(int p_114691_, int p_114692_) {
         return (float)p_114691_ / (float)p_114692_;
     }
+    
     private static void vertex(VertexConsumer p_114712_, Matrix4f p_114713_, Matrix3f p_114714_, int p_114715_, float p_114716_, int p_114717_, int p_114718_, int p_114719_) {
         p_114712_.vertex(p_114713_, p_114716_ - 0.5F, (float)p_114717_ - 0.5F, 0.0F).color(255, 255, 255, 255).uv((float)p_114718_, (float)p_114719_).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(p_114715_).normal(p_114714_, 0.0F, 1.0F, 0.0F).endVertex();
     }
