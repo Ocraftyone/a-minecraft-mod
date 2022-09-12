@@ -6,6 +6,7 @@
 
 package com.ocraftyone.randomadditions.blocks;
 
+import com.ocraftyone.randomadditions.inits.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
@@ -28,11 +29,9 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.ForgeHooks;
 
 import java.util.Random;
-import java.util.function.Supplier;
 
 @SuppressWarnings("NullableProblems")
 public class CornCrop extends CropBlock {
-    private final Supplier<? extends ItemLike> seedItem;
     public static final BooleanProperty UPPER = BooleanProperty.create("upper");
     public static final IntegerProperty AGE = IntegerProperty.create("age", 0, 8);
     
@@ -60,15 +59,14 @@ public class CornCrop extends CropBlock {
     };
     
     
-    public CornCrop(Properties properties, Supplier<? extends ItemLike> seed) {
+    public CornCrop(Properties properties) {
         super(properties);
-        this.seedItem = seed;
         this.registerDefaultState(this.getStateDefinition().any().setValue(AGE, 0).setValue(UPPER, false));
     }
     
     @Override
     protected ItemLike getBaseSeedId() {
-        return this.seedItem.get();
+        return ModItems.CORN_KERNEL.get();
     }
     
     @Override

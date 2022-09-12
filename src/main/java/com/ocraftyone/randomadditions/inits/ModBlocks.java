@@ -20,36 +20,23 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-import java.util.function.Supplier;
+import javax.annotation.Nullable;
 
 public class ModBlocks {
     public static final DeferredRegister<Block> BLOCK_REGISTRY = DeferredRegister.create(ForgeRegistries.BLOCKS, Constants.MOD_ID);
     
-    public static final RegistryObject<Block> CORN_CROP = register("corn_crop", () -> new CornCrop(BlockBehaviour.Properties.of(Material.PLANT).noCollission().noOcclusion().randomTicks().instabreak().sound(SoundType.CROP), ModItems.CORN_KERNEL), true);
+    public static final RegistryObject<Block> CORN_CROP = register("corn_crop", CornCrop::new, BlockBehaviour.Properties.of(Material.PLANT).noCollission().noOcclusion().randomTicks().instabreak().sound(SoundType.CROP), null, null, true);
     
-    public static final RegistryObject<Block> CORN_SHUCKER = register("corn_shucker", () -> new CornShuckerBlock(BlockBehaviour.Properties.of(Material.HEAVY_METAL).sound(SoundType.METAL)));
-    private static <T extends Block> RegistryObject<T> register(String name, Supplier<T> supplier, CreativeModeTab tab, Item.Properties itemProperties, boolean bypassItemCreation) {
-        RegistryObject<T> registryObject = BLOCK_REGISTRY.register(name, supplier);
+    public static final RegistryObject<Block> AUTO_CORN_SHUCKER = register("auto_corn_shucker", CornShuckerBlock::new, BlockBehaviour.Properties.of(Material.HEAVY_METAL).sound(SoundType.METAL), Constants.GeneralTab, null, false);
+    
+    
+    //Registration Methods
+    private static <T extends Block> RegistryObject<T> register(String name, BlockTypeSupplier<T> blockTypeSupplier, BlockBehaviour.Properties blockProperties, @Nullable CreativeModeTab tab, @Nullable Item.Properties itemProperties, boolean bypassItemCreation) {
+        RegistryObject<T> registryObject = BLOCK_REGISTRY.register(name, () -> blockTypeSupplier.create(blockProperties));
         if (!bypassItemCreation) {
             registerBlockItem(name, registryObject, tab, itemProperties);
         }
         return registryObject;
-    }
-    
-    private static <T extends Block> RegistryObject<T> register(String name, Supplier<T> supplier, boolean bypassItemCreation) {
-        return register(name, supplier, null, null, bypassItemCreation);
-    }
-    
-    private static <T extends Block> RegistryObject<T> register(String name, Supplier<T> supplier, CreativeModeTab tab) {
-        return register(name, supplier, tab, null, false);
-    }
-    
-    private static <T extends Block> RegistryObject<T> register(String name, Supplier<T> supplier, Item.Properties itemProperties) {
-        return register(name, supplier, null, itemProperties, false);
-    }
-    
-    private static <T extends Block> RegistryObject<T> register(String name, Supplier<T> supplier) {
-        return register(name, supplier, null, null, false);
     }
     
     private static RegistryObject<Item> registerBlockItem(String name, RegistryObject<? extends Block> block, CreativeModeTab tab, Item.Properties itemProperties) {
@@ -61,5 +48,10 @@ public class ModBlocks {
         }
         Item.Properties finalItemProperties = itemProperties;
         return ModItems.ITEM_REGISTRY.register(name, () -> new BlockItem(block.get(), finalItemProperties));
+    }
+    
+    @FunctionalInterface
+    public interface BlockTypeSupplier<T extends Block> {
+        T create(BlockBehaviour.Properties blockProperties);
     }
 }
