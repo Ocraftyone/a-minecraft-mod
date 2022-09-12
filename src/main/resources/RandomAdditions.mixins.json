@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.ocraftyone.randomadditions.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "randomadditions.refmap.json",
+  "mixins": [
+    "CustomItemUseEffectsMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

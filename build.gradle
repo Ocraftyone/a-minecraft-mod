@@ -32,6 +32,7 @@ ext {
     useAT = Boolean.parseBoolean(useAT)
     cfEnabled = Boolean.parseBoolean(cfEnabled)
     mcVersions = mcVersions.replaceAll(" ", "").split(",")
+    groupNameSlash = groupName.replaceAll("[.]", "/")
 }
 
 if (file("local.properties").exists()) {
@@ -47,14 +48,14 @@ if (!useOfficialMappings) {
 if (useMixins) {
     apply plugin: 'org.spongepowered.mixin'
 
-    def path = "src/resources/" + noSpaceName + ".mixins.json"
+    def path = "src/main/resources/" + noSpaceName + ".mixins.json"
     if (!file(path).exists()) {
-        def dir = "src/main/java/com/ocraftyone/" + lowerName + "/mixin/"
+        def dir = "src/main/java/${groupNameSlash}/" + lowerName + "/mixin/"
         mkdir(dir)
         def mixinFile = file(path)
         mixinFile.createNewFile()
         def templateFile = file("setup/template.mixins.json")
-        mixinFile.write(String.join("\n", templateFile.readLines()).replaceAll("mixinpkg", "com.ocraftyone." + lowerName + ".mixin").replaceAll("refmappath", lowerName + ".refmap.json"))
+        mixinFile.write(String.join("\n", templateFile.readLines()).replaceAll("mixinpkg", "${groupName}." + lowerName + ".mixin").replaceAll("refmappath", lowerName + ".refmap.json"))
         exec {
             executable "git"
             args "add", path
@@ -63,7 +64,7 @@ if (useMixins) {
 }
 
 if (!file("setup/gen.lock").exists()) {
-    def dir = "src/main/java/com/ocraftyone/" + lowerName
+    def dir = "src/main/java/${groupNameSlash}/" + lowerName
     mkdir(dir)
 // Create main java file
     def pathToJavaFile = dir + "/" + noSpaceName + ".java"
@@ -83,8 +84,8 @@ if (!file("setup/gen.lock").exists()) {
     def modsFile = file(pathToModsFile)
     if (!modsFile.exists()) {
         modsFile.createNewFile()
-        templateString = String.join("\n", file("setup/mods.toml").readLines())
-        modsFile.write(templateString.replaceAll("MODID", lowerName).replaceAll("DISPLAYNAME", projectName).replaceAll("mcVerRange", mcVerRange).replaceAll("loadVer", minLoaderVer))
+        var templateString = String.join("\n", file("setup/mods.toml").readLines())
+        modsFile.write(templateString.replaceAll("MODID", lowerName).replaceAll("DISPLAYNAME", projectName).replaceAll("mcVerRange", mcVerRange).replaceAll("loadVer", minLoaderVer).replaceAll("AUTHOR", author).replaceAll("LICENSE", license).replaceAll("DESCRIPTION", description))
     }
 
 //  Add files to git
@@ -92,10 +93,10 @@ if (!file("setup/gen.lock").exists()) {
         executable "git"
         args "add", pathToJavaFile, pathToModsFile
     }
-    file("setup/gen.lock").createNewFile()
+    file("setup/gen.lock").write("This file prevents the generation of the the mods.toml and main java file from running again.\nDelete to regenerate.")
 }
 
-group = 'com.ocraftyone'
+group = groupName
 version = "forge-" + jarMCVer + "-" + buildVer
 
 java {
@@ -244,19 +245,6 @@ repositories {
     // Put repositories for dependencies here
     // ForgeGradle automatically adds the Forge maven and Maven Central for you
 
-    mavenCentral()
-
-    maven {
-        // location of the maven that hosts JEI files
-        name = "Progwml6 maven"
-        url = "https://dvs1.progwml6.com/files/maven/"
-    }
-    maven {
-        // location of a maven mirror for JEI files, as a fallback
-        name = "ModMaven"
-        url = "https://modmaven.dev"
-    }
-
     // If you have mod jar dependencies in ./libs, you can declare them as a repository like so:
     // flatDir {
     //     dir 'libs'
@@ -273,8 +261,6 @@ dependencies {
     // compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api") // Adds JEI API as a compile dependency
     // runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}") // Adds the full JEI mod as a runtime dependency
     // implementation fg.deobf("com.tterrag.registrate:Registrate:MC${mc_version}-${registrate_version}") // Adds registrate as a dependency
-
-    runtimeOnly fg.deobf("mezz.jei:jei-${mcVer}:9.7.1.232")
 
     // Examples using mod jars from ./libs
     // implementation fg.deobf("blank:coolmod-${mc_version}:${coolmod_version}")
@@ -310,9 +296,12 @@ createSrgToMcp.finalizedBy("genIntellijRuns")
 
 if (cfEnabled) {
     if (!file("local.properties").exists()) {
-        propFile = file("local.properties")
-        propFile.createNewFile()
+        var propFile = file("local.properties")
         propFile.write("apiToken=")
+    }
+
+    if (!file("changelog.txt").exists()) {
+        file("changelog.txt").createNewFile()
     }
 
     tasks.register "publishToCurseforge", {
