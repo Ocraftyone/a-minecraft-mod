@@ -8,6 +8,7 @@ package com.ocraftyone.randomadditions.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
+import com.ocraftyone.randomadditions.util.AnimationUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
@@ -40,19 +41,16 @@ public class ShuckerItemModelRenderer extends BlockEntityWithoutLevelRenderer {
         boolean gui = pTransformType.equals(ItemTransforms.TransformType.GUI);
         CompoundTag tag = pStack.getOrCreateTag();
         //Time
-        float partialTics = Minecraft.getInstance().getFrameTime();
-        int timeRemaining = player.getUseItemRemainingTicks();
-        int animationTime = pStack.getItem().getUseDuration(pStack);
-        float time = timeRemaining - partialTics + 1.0F;
-        float timeElapsed = animationTime - time;
-        
+        float time = AnimationUtil.getPartialItemRemainingTicks() + 1.0F;
+        float timeElapsed = AnimationUtil.getPartialAnimationTimeElapsed(pStack);
+    
         pPoseStack.pushPose();
         pPoseStack.translate(0.5F, 0.5F, 0.5F);
-        
+    
         if (tag.contains("Shucking")) {
             //Render item to be shucked
             pPoseStack.pushPose();
-            
+        
             float f1 = time / (float) pStack.getUseDuration();
             if (f1 < 0.8F) {
                 float f2 = -Mth.abs(Mth.cos(time / 4.0F * (float) Math.PI) * 0.1F);
@@ -62,7 +60,7 @@ public class ShuckerItemModelRenderer extends BlockEntityWithoutLevelRenderer {
             renderer.renderStatic(ItemStack.of(tag.getCompound("Shucking")), pTransformType, pPackedLight, pPackedOverlay, pPoseStack, pBuffer, 0);
             pPoseStack.popPose();
             //Render shucker
-            if (timeRemaining != 0) {
+            if (AnimationUtil.getItemRemainingTicks() != 0) {
                 if (firstPerson) {
                     pPoseStack.translate((Math.cos(timeElapsed * (Math.PI * -0.1)) * 0.3) + 0.1, 0.0D, Math.sin(timeElapsed * (Math.PI * -0.1)) * 0.3);
                 } else if (gui) {
