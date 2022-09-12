@@ -8,7 +8,9 @@ package com.ocraftyone.randomadditions.client;
 
 import com.mojang.logging.LogUtils;
 import com.ocraftyone.randomadditions.Constants;
+import com.ocraftyone.randomadditions.client.renderer.CornShuckerBlockEntityRenderer;
 import com.ocraftyone.randomadditions.client.renderer.ModifiedFishingHookRenderer;
+import com.ocraftyone.randomadditions.inits.ModBlockEntities;
 import com.ocraftyone.randomadditions.inits.ModBlocks;
 import com.ocraftyone.randomadditions.inits.ModEntities;
 import com.ocraftyone.randomadditions.inits.ModItems;
@@ -60,7 +62,13 @@ public class ClientHandler {
         event.registerEntityRenderer(ModEntities.FISHING_HOOK.get(), ModifiedFishingHookRenderer::new);
     }
     
-/*
+    @SubscribeEvent
+    public void registerBlockEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        LogUtils.getLogger().info("HELLO FROM REGISTER BLOCK ENTITY RENDERERS");
+        event.registerBlockEntityRenderer(ModBlockEntities.CORN_SHUCKER_BLOCK_ENTITY.get(), CornShuckerBlockEntityRenderer::new);
+    }
+    
+    /*
     Not needed unless I use my own model
     @SubscribeEvent
     public static void onModelRegistry(ModelRegistryEvent event) {

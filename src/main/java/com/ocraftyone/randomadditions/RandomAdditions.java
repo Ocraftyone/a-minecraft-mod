@@ -8,11 +8,7 @@ package com.ocraftyone.randomadditions;
 
 import com.mojang.logging.LogUtils;
 import com.ocraftyone.randomadditions.client.ClientHandler;
-import com.ocraftyone.randomadditions.inits.ModBlocks;
-import com.ocraftyone.randomadditions.inits.ModEntities;
-import com.ocraftyone.randomadditions.inits.ModItems;
-import com.ocraftyone.randomadditions.inits.ModSounds;
-import net.minecraftforge.client.event.ClientChatReceivedEvent;
+import com.ocraftyone.randomadditions.inits.*;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -28,23 +24,19 @@ public class RandomAdditions {
     public RandomAdditions() {
         // Register the setup method for mod loading
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-        
+    
         modEventBus.addListener(this::setupClient);
         ModSounds.SOUND_REGISTRY.register(modEventBus);
         ModBlocks.BLOCK_REGISTRY.register(modEventBus);
         ModItems.ITEM_REGISTRY.register(modEventBus);
         ModEntities.ENTITY_REGISTRY.register(modEventBus);
+        ModBlockEntities.BLOCK_ENTITY_REGISTRY.register(modEventBus);
+    
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
-        MinecraftForge.EVENT_BUS.addListener(this::onClientChatReceived);
     }
     
     private void setupClient(FMLClientSetupEvent event) {
         ClientHandler.setupClient();
-    }
-    
-    public void onClientChatReceived(ClientChatReceivedEvent event) {
-        String string = event.getMessage().getString();
-        RandomAdditions.LOGGER.info(string);
     }
 }
