@@ -1,7 +1,10 @@
 package com.ocraftyone.randomadditions.blocks.entity;
 
+import com.ocraftyone.randomadditions.RandomAdditions;
+import com.ocraftyone.randomadditions.blocks.CornShuckerBlock;
 import com.ocraftyone.randomadditions.inits.ModBlockEntities;
 import com.ocraftyone.randomadditions.inits.ModBlocks;
+import com.ocraftyone.randomadditions.util.AnimationUtil;
 import com.ocraftyone.randomadditions.util.ModItemStackHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -23,6 +26,10 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class CornShuckerBlockEntity extends BlockEntity implements MenuProvider {
+    private static final float MAX_SPEED = 30F;
+    private static final float STEP = 0.5F;
+    private float rotationModifier = 0F;
+    private float rotation = 0F;
     
     private final ModItemStackHandler itemStackHandler = new ModItemStackHandler(3) {
         @Override
@@ -38,7 +45,16 @@ public class CornShuckerBlockEntity extends BlockEntity implements MenuProvider 
     }
     
     public static void tick(Level pLevel, BlockPos pPos, BlockState pState, CornShuckerBlockEntity pBlockEntity) {
-    
+        if (!pLevel.isClientSide()) return;
+        Boolean active = pState.getValue(CornShuckerBlock.ACTIVE);
+        if (active && pBlockEntity.rotationModifier < MAX_SPEED) {
+            pBlockEntity.incrementRotationModifier();
+        } else if (!active && pBlockEntity.rotationModifier > 0) {
+            pBlockEntity.decrementRotationModifier();
+        }
+        pBlockEntity.rotation += pBlockEntity.rotationModifier;
+        pBlockEntity.rotation %= 360;
+        RandomAdditions.LOGGER.info("Entity Tick: Rotation " + pBlockEntity.rotation);
     }
     
     @Override
@@ -87,5 +103,19 @@ public class CornShuckerBlockEntity extends BlockEntity implements MenuProvider 
     
     public void dropContents() {
         Containers.dropContents(this.level, this.worldPosition, itemStackHandler.getAsList());
+    }
+    
+    public float getRotation() {
+        return rotationModifier == 0 ? rotation : rotation + (AnimationUtil.getPartialTicks() * rotationModifier);
+    }
+    
+    public void incrementRotationModifier() {
+        rotationModifier += STEP;
+        rotationModifier = Math.min(rotationModifier, MAX_SPEED);
+    }
+    
+    public void decrementRotationModifier() {
+        rotationModifier -= STEP;
+        rotationModifier = Math.max(rotationModifier, 0);
     }
 }

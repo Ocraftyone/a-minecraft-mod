@@ -3,53 +3,75 @@ package com.ocraftyone.randomadditions.blocks;
 import com.ocraftyone.randomadditions.blocks.entity.CornShuckerBlockEntity;
 import com.ocraftyone.randomadditions.inits.ModBlockEntities;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.BooleanOp;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Optional;
+import java.util.Random;
 
 public class CornShuckerBlock extends BaseEntityBlock {
     
-    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
     
+    private static final Optional<VoxelShape> OCCLUSION_SHAPE = Optional.of(Shapes.join(
+            Shapes.block(),
+            Block.box(2, 2, 2, 14, 16, 14),
+            BooleanOp.ONLY_FIRST));
     
     public CornShuckerBlock(Properties pProperties) {
         super(pProperties);
+        this.registerDefaultState(defaultBlockState().setValue(ACTIVE, false));
     }
     
     @Override
-    public BlockState mirror(BlockState pState, Mirror pMirror) {
-        return super.mirror(pState, pMirror);
+    public void neighborChanged(BlockState pState, Level pLevel, BlockPos pPos, Block pBlock, BlockPos pFromPos, boolean pIsMoving) {
+        if (!pLevel.isClientSide) {
+            boolean flag = pState.getValue(ACTIVE);
+            if (flag != pLevel.hasNeighborSignal(pPos)) {
+                if (flag) {
+                    pLevel.scheduleTick(pPos, this, 4);
+                } else {
+                    pLevel.setBlock(pPos, pState.cycle(ACTIVE), 2);
+                }
+            }
+        }
+        super.neighborChanged(pState, pLevel, pPos, pBlock, pFromPos, pIsMoving);
     }
     
-    @Nullable
     @Override
-    public BlockState getStateForPlacement(BlockPlaceContext pContext) {
-        return this.defaultBlockState().setValue(FACING, pContext.getHorizontalDirection().getOpposite());
+    public void tick(BlockState pState, ServerLevel pLevel, BlockPos pPos, Random pRandom) {
+        if (pState.getValue(ACTIVE) && !pLevel.hasNeighborSignal(pPos)) {
+            pLevel.setBlock(pPos, pState.cycle(ACTIVE), 2);
+        }
     }
     
+    
     @Override
-    public BlockState rotate(BlockState pState, Rotation pRotation) {
-        return pState.setValue(FACING, pRotation.rotate(pState.getValue(FACING)));
+    public VoxelShape getOcclusionShape(BlockState pState, BlockGetter pLevel, BlockPos pPos) {
+        return OCCLUSION_SHAPE.orElse(Shapes.block());
     }
     
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
-        pBuilder.add(FACING)
-                .add(ACTIVE);
+        pBuilder.add(ACTIVE);
     }
     
     @Nullable
